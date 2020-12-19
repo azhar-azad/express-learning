@@ -7,6 +7,7 @@ web-dev-simpli-express-mongo-api/node_modules/
 practice/empl-mgmt-api/node_modules/
 practice/book-publisher-api/node_modules/
 practice/social-media-api/node_modules/
+practice/online-learning-api/node_modules/
 
 # env file
 web-dev-simpli-express-mongo-api/.env/
