@@ -1,7 +1,10 @@
 const express = require('express');
 const {
   createCountry,
-  getCountries
+  getCountries,
+  getCountry,
+  updateCountry,
+  deleteCountry
 } = require('../controllers/countryController.js');
 
 const countryRouter = express.Router();
@@ -11,5 +14,14 @@ countryRouter.post('/', createCountry);
 
 // GET ALL COUNTRIES
 countryRouter.get('/', getCountries);
+
+// GET COUNTRY BY ID
+countryRouter.get('/:id', getCountry);
+
+// UPDATE COUNTRY BY ID
+countryRouter.patch('/:id', updateCountry);
+
+// DELETE COUNTRY BY ID
+countryRouter.delete('/:id', deleteCountry);
 
 module.exports = countryRouter;
