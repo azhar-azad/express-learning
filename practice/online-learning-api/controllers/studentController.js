@@ -26,15 +26,63 @@ const getStudents = async (req, res) => {
 };
 
 const getStudent = async (req, res) => {
-
+  try {
+    const student = await Student.findById(req.params.id);
+    
+    if (student === null) {
+      sendError(res, 404, 'Student is not found');
+      return;
+    }
+    
+    res.json({
+      success: true,
+      data: student
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
 };
 
 const updateStudent = async (req, res) => {
-
+  try {
+    const student = await Student.findById(req.params.id);
+    
+    if (student === null) {
+      sendError(res, 404, 'Student is not found');
+      return;
+    }
+    
+    const { name, age } = req.body;
+    
+    if (name) student.name = name;
+    if (age) student.age = age;
+    
+    await student.save();
+    
+    res.json({
+      success: true,
+      data: student
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
 };
 
 const deleteStudent = async (req, res) => {
-
+  try {
+    const student = await Student.findById(req.params.id);
+    if (student === null) {
+      sendError(res, 404, 'Student is not found');
+      return;
+    }
+    await student.remove();
+    res.json({
+      success: true,
+      data: `Student Deleted: ${student.name}`
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
 };
 
 // PRIVATE METHODS ONLY FOR THIS MODULE

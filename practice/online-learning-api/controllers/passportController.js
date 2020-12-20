@@ -32,11 +32,45 @@ const getPassports = async (req, res) => {
 };
 
 const getPassport = async (req, res) => {
-
+  try {
+    const passport = await Passport.findById(req.params.id);
+    
+    if (passport === null) {
+      sendError(res, 404, 'Passport is not found');
+      return;
+    }
+    
+    res.json({
+      success: true,
+      data: passport
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
 };
 
 const updatePassport = async (req, res) => {
-
+  try {
+    const passport = await Passport.findById(req.params.id);
+    
+    if (passport === null) {
+      sendError(res, 404, 'Passport is not found');
+      return;
+    }
+  
+    const { number } = req.body;
+  
+    if (number) passport.number = number;
+  
+    await passport.save();
+    
+    res.json({
+      success: true,
+      data: passport
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
 };
 
 const deletePassport = async (req, res) => {
