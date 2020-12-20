@@ -37,11 +37,46 @@ const getReviews = async (req, res) => {
 };
 
 const getReview = async (req, res) => {
-
+  try {
+    const review = await Review.findById(req.params.id);
+    
+    if (review === null) {
+      sendError(res, 404, 'Review is not found');
+      return;
+    }
+    
+    res.json({
+      success: true,
+      data: review
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
 };
 
 const updateReview = async (req, res) => {
-
+  try {
+    const review = await Review.findById(req.params.id);
+    
+    if (review === null) {
+      sendError(res, 404, 'Review is not found');
+      return;
+    }
+    
+    const { text, rating } = req.body;
+    
+    if (text) review.text = text;
+    if (rating) review.rating = rating;
+    
+    await review.save();
+    
+    res.json({
+      success: true,
+      data: review
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
 };
 
 const deleteReview = async (req, res) => {
