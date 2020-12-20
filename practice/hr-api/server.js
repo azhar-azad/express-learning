@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const regionRouter = require('./routes/regionRouter.js');
+const countryRouter = require('./routes/countryRouter.js');
+
 mongoose.connect('mongodb://localhost/Hr_db', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -14,6 +17,8 @@ const app = express();
 const port = 5000;
 
 app.use(bodyParser.json());
+app.use('/regions', regionRouter);
+app.use('/countries', countryRouter);
 
 app.get('/', (req, res) => {
   res.send('HOME PAGE test');
