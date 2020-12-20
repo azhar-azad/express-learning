@@ -1,9 +1,19 @@
 const Student = require('../models/Student.js');
+const Course = require('../models/Course.js');
 
 const createStudent = async (req, res) => {
   try {
     const student = new Student(req.body);
     await student.save();
+    
+    student.enrolledCourses.forEach( async (enrlCourse) => {
+      const course = await Course.findById({ _id: enrlCourse });
+      course.enrolledStudents.push(student);
+      await course.save();
+    });
+    
+    // const courses = await Course.findById({ _id: student.enrolledCourses });
+    
     res.status(201).json({
       success: true,
       data: student

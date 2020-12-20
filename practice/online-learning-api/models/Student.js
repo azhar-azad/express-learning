@@ -17,6 +17,10 @@ const studentSchema = new Schema({
   givenReviews: [{
     type: Schema.Types.ObjectID,
     ref: 'Review'
+  }],
+  enrolledCourses: [{
+    type: Schema.Types.ObjectID,
+    ref: 'Course'
   }]
 });
 
