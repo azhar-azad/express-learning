@@ -3,14 +3,12 @@ const { Schema } = require('mongoose');
 
 const jobHistorySchema = new Schema({
   startDate: {
-    type: Date,
-    required: true,
-    default: Date.now
+    type: String,
+    required: true
   },
   endDate: {
-    type: Date,
-    required: true,
-    default: Date.now
+    type: String,
+    required: true
   },
   employee: {
     type: Schema.Types.ObjectID,

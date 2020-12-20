@@ -1,25 +1,25 @@
+const Location = require('../models/Location.js');
 const Country = require('../models/Country.js');
-const Region = require('../models/Region.js');
 
-const createCountry = async (req, res) => {
+const createLocation = async (req, res) => {
   try {
-    const country = new Country(req.body);
+    const location = new Location(req.body);
+    await location.save();
+    
+    const country = await Country.findById({ _id: location.country });
+    country.locations.push(location);
     await country.save();
     
-    const region = await Region.findById({ _id: country.region });
-    region.countries.push(country);
-    await region.save();
-    
-    sendData(res, 201, country);
+    sendData(res, 201, location);
   } catch (e) {
     sendError(res, 400, e);
   }
 };
 
-const getCountries = async (req, res) => {
+const getLocations = async (req, res) => {
   try {
-    const countries = await Country.find();
-    sendData(res, 200, countries);
+    const locations = await Location.find();
+    sendData(res, 200, locations);
   } catch (e) {
     sendError(res, 500, e);
   }
@@ -41,6 +41,6 @@ const sendError = (res, statusCode, error) => {
 };
 
 module.exports = {
-  createCountry,
-  getCountries
+  createLocation,
+  getLocations
 };
