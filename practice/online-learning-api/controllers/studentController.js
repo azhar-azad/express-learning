@@ -12,8 +12,6 @@ const createStudent = async (req, res) => {
       await course.save();
     });
     
-    // const courses = await Course.findById({ _id: student.enrolledCourses });
-    
     res.status(201).json({
       success: true,
       data: student
