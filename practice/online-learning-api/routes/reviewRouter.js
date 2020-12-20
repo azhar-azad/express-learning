@@ -3,6 +3,8 @@ const express = require('express');
 const {
   createReview,
   getReviews,
+  getReview,
+  updateReview,
   deleteReview
 } = require('../controllers/reviewController.js');
 
@@ -13,6 +15,12 @@ reviewRouter.post('/', createReview);
 
 // GET ALL REVIEWS
 reviewRouter.get('/', getReviews);
+
+// GET REVIEW
+reviewRouter.get('/:id', getReview);
+
+// UPDATE REVIEW
+reviewRouter.patch('/:id', updateReview);
 
 // DELETE REVIEW BY ID
 reviewRouter.delete('/:id', deleteReview);

@@ -36,6 +36,14 @@ const getReviews = async (req, res) => {
   }
 };
 
+const getReview = async (req, res) => {
+
+};
+
+const updateReview = async (req, res) => {
+
+};
+
 const deleteReview = async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
@@ -64,5 +72,7 @@ const sendError = (res, statusCode, error) => {
 module.exports = {
   createReview,
   getReviews,
+  getReview,
+  updateReview,
   deleteReview
 };

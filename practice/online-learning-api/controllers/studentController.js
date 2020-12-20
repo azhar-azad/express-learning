@@ -25,6 +25,18 @@ const getStudents = async (req, res) => {
   }
 };
 
+const getStudent = async (req, res) => {
+
+};
+
+const updateStudent = async (req, res) => {
+
+};
+
+const deleteStudent = async (req, res) => {
+
+};
+
 // PRIVATE METHODS ONLY FOR THIS MODULE
 const sendError = (res, statusCode, error) => {
   res.status(statusCode).json({
@@ -35,5 +47,8 @@ const sendError = (res, statusCode, error) => {
 
 module.exports = {
   createStudent,
-  getStudents
+  getStudents,
+  getStudent,
+  updateStudent,
+  deleteStudent
 };

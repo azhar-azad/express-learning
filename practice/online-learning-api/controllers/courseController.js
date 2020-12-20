@@ -25,6 +25,51 @@ const getCourses = async (req, res) => {
   }
 };
 
+const getCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    
+    if (course === null) {
+      sendError(res, 404, 'Course is not found');
+      return;
+    }
+    
+    res.json({
+      success: true,
+      data: course
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
+};
+
+const updateCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    
+    if (course === null) {
+      sendError(res, 404, 'Course is not found');
+      return;
+    }
+    
+    const { name, instructor, price, enrolled } = req.body;
+    
+    if (name) course.name = name;
+    if (instructor) course.instructor = instructor;
+    if (price) course.price = price;
+    if (enrolled) course.enrolled = enrolled;
+    
+    await course.save();
+    
+    res.json({
+      success: true,
+      data: course
+    });
+  } catch (e) {
+    sendError(res, 500, e);
+  }
+};
+
 const deleteCourse = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
@@ -53,5 +98,7 @@ const sendError = (res, statusCode, error) => {
 module.exports = {
   createCourse,
   getCourses,
+  getCourse,
+  updateCourse,
   deleteCourse
 };
