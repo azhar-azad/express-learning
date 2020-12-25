@@ -27,11 +27,6 @@ const createCountry = async (req, res) => {
   }
 };
 
-/*
-  TODO 1: fix the sendError function in all controllers.
-  TODO 2: fix the create method to only save the entity if the dependencies are found.
- */
-
 const getCountries = async (req, res) => {
   try {
     const countries = await Country.find();
