@@ -1,6 +1,11 @@
 const Country = require('../models/Country.js');
 const Region = require('../models/Region.js');
 
+const { sendData, sendError } = require('./messageController.js');
+
+// Country has dependency on Region
+// Save the Region first before saving Country
+
 const createCountry = async (req, res) => {
   try {
     const country = new Country(req.body);
@@ -85,19 +90,19 @@ const deleteCountry = async (req, res) => {
 };
 
 // PRIVATE METHODS ONLY FOR THIS MODULE
-const sendData = (res, statusCode, data) => {
-  res.status(statusCode).json({
-    success: true,
-    data: data
-  });
-};
-
-const sendError = (res, statusCode, message) => {
-  res.status(statusCode).json({
-    success: false,
-    message: message
-  });
-};
+// const sendData = (res, statusCode, data) => {
+//   res.status(statusCode).json({
+//     success: true,
+//     data: data
+//   });
+// };
+//
+// const sendError = (res, statusCode, message) => {
+//   res.status(statusCode).json({
+//     success: false,
+//     message: message
+//   });
+// };
 
 module.exports = {
   createCountry,
