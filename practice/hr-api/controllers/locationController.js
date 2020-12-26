@@ -7,8 +7,10 @@ const { sendData, sendError } = require('./messageController.js');
 // Save the Country first before saving Location
 
 const createLocation = async (req, res) => {
+  
+  let location = null;
   try {
-    const location = new Location(req.body);
+    location = new Location(req.body);
     
     const country = await Country.findById({ _id: location.country });
     if (country === null) {
@@ -37,22 +39,68 @@ const getLocations = async (req, res) => {
   }
 };
 
-// PRIVATE METHODS ONLY FOR THIS MODULE
-// const sendData = (res, statusCode, data) => {
-//   res.status(statusCode).json({
-//     success: true,
-//     data: data
-//   });
-// };
-//
-// const sendError = (res, statusCode, error) => {
-//   res.status(statusCode).json({
-//     success: false,
-//     message: error.message
-//   });
-// };
+const getLocation = async (req, res) => {
+  try {
+    const location = await Location.findById(req.params.id);
+    if (location === null) {
+      sendError(res, 404, 'Location is not found');
+      return;
+    }
+    
+    sendData(res, 200, location);
+    
+  } catch (e) {
+    sendError(res, 500, e.message);
+  }
+};
+
+const updateLocation = async (req, res) => {
+  let location = null;
+  try {
+    location = await Location.findById(req.params.id);
+    if (location === null) {
+      sendError(res, 404, 'Location is not found');
+      return;
+    }
+    
+    const { streetAddress, postalCode, city } = req.body;
+    if (streetAddress)
+      location.streetAddress = streetAddress;
+    if (postalCode)
+      location.postalCode = postalCode;
+    if (city)
+      location.city = city;
+    
+    await location.save();
+    
+    sendData(res, 200, location);
+    
+  } catch (e) {
+    sendError(res, 500, e.message)
+  }
+};
+
+const deleteLocation = async (req, res) => {
+  try {
+    const location = await Location.findById(req.params.id);
+    if (location === null) {
+      sendError(res, 404, 'Location is not found');
+      return;
+    }
+    
+    await location.remove();
+    
+    sendData(res, 200, 'Location Deleted: ' + location._id);
+    
+  } catch (e) {
+    sendError(res, 500, e.message);
+  }
+};
 
 module.exports = {
   createLocation,
-  getLocations
+  getLocations,
+  getLocation,
+  updateLocation,
+  deleteLocation
 };
