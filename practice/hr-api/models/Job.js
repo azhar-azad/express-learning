@@ -4,7 +4,8 @@ const { Schema } = require('mongoose');
 const jobSchema = new Schema({
   jobTitle: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   minSalary: {
     type: Number,

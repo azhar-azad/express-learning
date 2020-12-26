@@ -4,7 +4,8 @@ const { Schema } = require('mongoose');
 const departmentSchema = new Schema({
   departmentName: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   location: {
     type: Schema.Types.ObjectID,

@@ -4,7 +4,8 @@ const { Schema } = require('mongoose');
 const regionSchema = new Schema({
   regionName: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   countries: [{
     type: Schema.Types.ObjectID,
