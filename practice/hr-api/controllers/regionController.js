@@ -5,21 +5,19 @@ const { sendData, sendError } = require('./messageController.js');
 // No Dependency
 
 const createRegion = async (req, res) => {
+  
+  let region = null;
   try {
-    const region = new Region(req.body);
+    region = new Region(req.body);
     
-    const region2 = Region.findOne({ regionName: region.regionName });
-    
-    if (region2 !== null) {
-      sendError(res, 400, 'Region exists.');
-    }
-    else {
-      await region.save();
-      sendData(res, 201, region);
-    }
+    await region.save();
+    sendData(res, 201, region);
     
   } catch (e) {
-    sendError(res, 400, e.message);
+    if (e.message.includes('E11000'))
+      sendError(res, 400, `${region.regionName} exists.`);
+    else
+      sendError(res, 400, e.message);
   }
 };
 
@@ -47,8 +45,10 @@ const getRegion = async (req, res) => {
 };
 
 const updateRegion = async (req, res) => {
+  
+  let region = null;
   try {
-    const region = await Region.findById(req.params.id);
+    region = await Region.findById(req.params.id);
     if (region === null) {
       sendError(res, 404, 'Region is not found');
       return;
@@ -61,7 +61,10 @@ const updateRegion = async (req, res) => {
     
     sendData(res, 200, region);
   } catch (e) {
-    sendError(res, 500, e.message)
+    if (e.message.includes('E11000'))
+      sendError(res, 400, `${region.regionName} exists.`);
+    else
+      sendError(res, 500, e.message)
   }
 };
 
