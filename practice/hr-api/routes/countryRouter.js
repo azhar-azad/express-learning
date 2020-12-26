@@ -19,7 +19,7 @@ countryRouter.get('/', getCountries);
 countryRouter.get('/:id', getCountry);
 
 // UPDATE COUNTRY BY ID
-countryRouter.patch('/:id', updateCountry);
+countryRouter.put('/:id', updateCountry);
 
 // DELETE COUNTRY BY ID
 countryRouter.delete('/:id', deleteCountry);

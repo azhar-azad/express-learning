@@ -19,7 +19,7 @@ regionRouter.get('/', getRegions);
 regionRouter.get('/:id', getRegion);
 
 // UPDATE REGION BY ID
-regionRouter.patch('/:id', updateRegion);
+regionRouter.put('/:id', updateRegion);
 
 // DELETE REGION BY ID
 regionRouter.delete('/:id', deleteRegion);
