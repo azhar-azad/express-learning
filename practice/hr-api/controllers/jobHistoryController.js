@@ -9,8 +9,10 @@ const { sendData, sendError } = require('./messageController.js');
 // Save the Employee, Department, Job first before saving JobHistory
 
 const createJobHistory = async (req, res) => {
+  
+  let jobHistory = null;
   try {
-    const jobHistory = new JobHistory(req.body);
+    jobHistory = new JobHistory(req.body);
   
     const employee = await Employee.findById({ _id: jobHistory.employee });
     const department = await Department.findById({ _id: jobHistory.department });
@@ -58,22 +60,65 @@ const getJobHistories = async (req, res) => {
   }
 };
 
-// PRIVATE METHODS ONLY FOR THIS MODULE
-// const sendData = (res, statusCode, data) => {
-//   res.status(statusCode).json({
-//     success: true,
-//     data: data
-//   });
-// };
-//
-// const sendError = (res, statusCode, error) => {
-//   res.status(statusCode).json({
-//     success: false,
-//     message: error.message
-//   });
-// };
+const getJobHistory = async (req, res) => {
+  try {
+    const jobHistory = await JobHistory.findById(req.params.id);
+    if (jobHistory === null) {
+      sendError(res, 404, 'JobHistory is not found');
+      return;
+    }
+    
+    sendData(res, 200, jobHistory);
+    
+  } catch (e) {
+    sendError(res, 500, e.message);
+  }
+};
+
+const updateJobHistory = async (req, res) => {
+  let jobHistory = null;
+  try {
+    jobHistory = await JobHistory.findById(req.params.id);
+    if (jobHistory === null) {
+      sendError(res, 404, 'JobHistory is not found');
+      return;
+    }
+    
+    const { startDate, endDate } = req.body;
+    if (startDate)
+      jobHistory.startDate = startDate;
+    if (endDate)
+      jobHistory.endDate = endDate;
+    
+    await jobHistory.save();
+    
+    sendData(res, 200, jobHistory);
+    
+  } catch (e) {
+    sendError(res, 500, e.message)
+  }
+};
+
+const deleteJobHistory = async (req, res) => {
+  try {
+    const jobHistory = await JobHistory.findById(req.params.id);
+    if (jobHistory === null) {
+      sendError(res, 404, 'JobHistory is not found');
+      return;
+    }
+    
+    await jobHistory.remove();
+    sendData(res, 200, 'JobHistory Deleted: ' + jobHistory._id);
+    
+  } catch (e) {
+    sendError(res, 500, e.message);
+  }
+};
 
 module.exports = {
   createJobHistory,
-  getJobHistories
+  getJobHistories,
+  getJobHistory,
+  updateJobHistory,
+  deleteJobHistory
 };

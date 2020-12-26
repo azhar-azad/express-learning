@@ -15,13 +15,13 @@ employeeRouter.post('/', createEmployee);
 // GET ALL EMPLOYEES
 employeeRouter.get('/', getEmployees);
 
-// GET EMPLOYEES BY ID
+// GET EMPLOYEE BY ID
 employeeRouter.get('/:id', getEmployee);
 
-// UPDATE EMPLOYEES BY ID
+// UPDATE EMPLOYEE BY ID
 employeeRouter.put('/:id', updateEmployee);
 
-// DELETE EMPLOYEES BY ID
+// DELETE EMPLOYEE BY ID
 employeeRouter.delete('/:id', deleteEmployee);
 
 module.exports = employeeRouter;
