@@ -7,8 +7,10 @@ const { sendData, sendError } = require('./messageController.js');
 // Save the Location first before saving Department
 
 const createDepartment = async (req, res) => {
+  
+  let department = null;
   try {
-    const department = new Department(req.body);
+    department = new Department(req.body);
     
     const location = await Location.findById({ _id: department.location });
     if (location === null) {
@@ -22,9 +24,11 @@ const createDepartment = async (req, res) => {
   
       sendData(res, 201, department);
     }
-    
   } catch (e) {
-    sendError(res, 400, e.message);
+    if (e.message.includes('E11000'))
+      sendError(res, 400, `${department.departmentName} exists.`);
+    else
+      sendError(res, 400, e.message);
   }
 };
 
@@ -37,22 +41,66 @@ const getDepartments = async (req, res) => {
   }
 };
 
-// PRIVATE METHODS ONLY FOR THIS MODULE
-// const sendData = (res, statusCode, data) => {
-//   res.status(statusCode).json({
-//     success: true,
-//     data: data
-//   });
-// };
-//
-// const sendError = (res, statusCode, error) => {
-//   res.status(statusCode).json({
-//     success: false,
-//     message: error.message
-//   });
-// };
+const getDepartment = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    if (department === null) {
+      sendError(res, 404, 'Department is not found');
+      return;
+    }
+    
+    sendData(res, 200, department);
+    
+  } catch (e) {
+    sendError(res, 500, e.message);
+  }
+};
+
+const updateDepartment = async (req, res) => {
+  let department = null;
+  try {
+    department = await Department.findById(req.params.id);
+    if (department === null) {
+      sendError(res, 404, 'Department is not found');
+      return;
+    }
+    
+    const { departmentName } = req.body;
+    if (departmentName)
+      department.departmentName = departmentName;
+    
+    await department.save();
+    
+    sendData(res, 200, department);
+    
+  } catch (e) {
+    if (e.message.includes('E11000'))
+      sendError(res, 400, `${department.departmentName} exists.`);
+    else
+      sendError(res, 500, e.message)
+  }
+};
+
+const deleteDepartment = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    if (department === null) {
+      sendError(res, 404, 'Department is not found');
+      return;
+    }
+    
+    await department.remove();
+    sendData(res, 200, 'Department Deleted: ' + department.departmentName);
+    
+  } catch (e) {
+    sendError(res, 500, e.message);
+  }
+};
 
 module.exports = {
   createDepartment,
-  getDepartments
+  getDepartments,
+  getDepartment,
+  updateDepartment,
+  deleteDepartment
 };
