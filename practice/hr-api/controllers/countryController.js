@@ -7,8 +7,10 @@ const { sendData, sendError } = require('./messageController.js');
 // Save the Region first before saving Country
 
 const createCountry = async (req, res) => {
+  
+  let country = null;
   try {
-    const country = new Country(req.body);
+    country = new Country(req.body);
     
     const region = await Region.findById({ _id: country.region });
     if (region === null) {
@@ -23,7 +25,10 @@ const createCountry = async (req, res) => {
       sendData(res, 201, country);
     }
   } catch (e) {
-    sendError(res, 400, e.message);
+    if (e.message.includes('E11000'))
+      sendError(res, 400, `${country.countryName} exists.`);
+    else
+      sendError(res, 400, e.message);
   }
 };
 
@@ -51,8 +56,9 @@ const getCountry = async (req, res) => {
 };
 
 const updateCountry = async (req, res) => {
+  let country = null;
   try {
-    const country = await Country.findById(req.params.id);
+    country = await Country.findById(req.params.id);
     if (country === null) {
       sendError(res, 404, 'Country is not found');
       return;
@@ -65,7 +71,10 @@ const updateCountry = async (req, res) => {
     
     sendData(res, 200, country);
   } catch (e) {
-    sendError(res, 500, e.message)
+    if (e.message.includes('E11000'))
+      sendError(res, 400, `${country.countryName} exists.`);
+    else
+      sendError(res, 500, e.message)
   }
 };
 
