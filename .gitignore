@@ -11,6 +11,7 @@ practice/online-learning-api/node_modules/
 practice/hr-api/node_modules/
 practice/pl-api-with-rate-limiter/node_modules/
 practice/rest-api-with-auth/node_modules/
+practice/node-with-typescript/node_modules/
 
 # env file
 web-dev-simpli-express-mongo-api/.env
