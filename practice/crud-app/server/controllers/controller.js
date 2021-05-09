@@ -8,6 +8,9 @@ exports.check = (req, res) => {
 // create and save new user
 exports.create = (req, res) => {
 
+  console.log('inside controller.create');
+  console.log(JSON.stringify(req.body));
+
   // validate request
   if (!req.body) { // post request with empty body
     res.send(400).send({message: 'Content can not be empty!'});
@@ -24,7 +27,8 @@ exports.create = (req, res) => {
 
   // save user in the database
   user.save(user).then(data => {
-    res.send(data)
+    // res.send(data);
+    res.redirect('/add-user');
   }).catch(err => {
     res.status(500).send({
       message: err.message || 'Some error occurred while creating a new user'
