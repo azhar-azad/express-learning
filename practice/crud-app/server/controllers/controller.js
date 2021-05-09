@@ -34,12 +34,26 @@ exports.create = (req, res) => {
 
 // retrieve and return all-user/single-user
 exports.find = (req, res) => {
-  
-  Userdb.find().then(user => {
-    res.send(user);
-  }).catch(err => {
-    res.status(500).send({message: err.message || 'Error occurred while retrieving user information'});
-  });
+
+  if (req.query.id) { // get single user
+    const id = req.query.id;
+
+    Userdb.findById(id).then(data => {
+      if (!data) {
+        res.status(404).send({message: `User not found with id ${id}`});
+      } else {
+        res.send(data);
+      }
+    }).catch(er => {
+      res.status(500).send({message: err.message || `Error retrieving user with id ${id}`});
+    });
+  } else { // get all users
+    Userdb.find().then(user => {
+      res.send(user);
+    }).catch(err => {
+      res.status(500).send({message: err.message || 'Error occurred while retrieving user information'});
+    });
+  }
 };
 
 // update a new identified user by user id
@@ -58,10 +72,21 @@ exports.update = (req, res) => {
     }
   }).catch(err => {
     res.status(500).send({message: 'Error updating user information!'});
-  })
+  });
 };
 
 // delete a user with specified user id
 exports.delete = (req, res) => {
   
+  const id = req.params.id;
+
+  Userdb.findByIdAndDelete(id).then(data => {
+    if (!data) {
+      res.status(404).send({message: `Cannot delete with id ${id}. Maybe id is wrong!`});
+    } else {
+      res.send({message: 'User was deleted successfully!'});
+    }
+  }).catch(err => {
+    res.status(500).send({message: `Could not delete user with id ${id}`});
+  });
 };
