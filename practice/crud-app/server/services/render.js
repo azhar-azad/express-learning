@@ -14,5 +14,10 @@ exports.addUserRoute = (req, res) => {
 }
 
 exports.updateUserRoute = (req, res) => {
-  res.render('update_user');
+  axios.get('http://localhost:3000/api/users', {params: {id: req.query.id}})
+  .then(response => {
+    res.render('update_user', {user: response.data});
+  }).catch(err => {
+    res.send(err);
+  });
 }
