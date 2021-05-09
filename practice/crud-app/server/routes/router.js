@@ -23,6 +23,7 @@ router.get('/add-user', services.addUserRoute);
 router.get('/update-user', services.updateUserRoute);
 
 // API
+router.get('/api/users/check', controller.check);
 router.post('/api/users', controller.create);
 router.get('/api/users', controller.find);
 router.put('/api/users/:id', controller.update);
