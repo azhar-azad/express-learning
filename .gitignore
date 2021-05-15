@@ -14,6 +14,10 @@ practice/rest-api-with-auth/node_modules/
 practice/node-with-typescript/node_modules/
 practice/express-ts-minimal/node_modules/
 practice/crud-app/node_modules/
+practice/crud-app-2/node_modules/
+
+# projects to ignore
+practice/crud-app-2/
 
 # env file
 web-dev-simpli-express-mongo-api/.env
