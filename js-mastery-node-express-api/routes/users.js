@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-// all routes in here are starting with /users
+// all routers in here are starting with /users
 // get all users
 router.get('/', getUsers);
 
