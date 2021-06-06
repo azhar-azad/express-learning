@@ -15,6 +15,8 @@ practice/node-with-typescript/node_modules/
 practice/express-ts-minimal/node_modules/
 practice/crud-app/node_modules/
 practice/crud-app-2/node_modules/
+practice/crud-app-3/node_modules/
+udemy/e-shop/backend/node_modules/
 
 # projects to ignore
 practice/crud-app-2/
@@ -22,4 +24,7 @@ practice/crud-app-2/
 # env file
 web-dev-simpli-express-mongo-api/.env
 practice/pl-api-with-rate-limiter/.env
+
+# ignored misc folders
+udemy/e-shop/12.1 initial-eshop-backend/
 
