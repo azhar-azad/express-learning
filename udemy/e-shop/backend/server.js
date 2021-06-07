@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
 const productRouter = require('./routers/productRouter');
+const categoryRouter = require('./routers/categoryRouter');
 
 const app = express();
 app.use(cors());
@@ -24,6 +26,7 @@ app.use(morgan('tiny'));
 
 // routers
 app.use(`${api}/products`, productRouter);
+app.use(`${api}/categories`, categoryRouter);
 
 mongoose.connect(conn_string, {
   useNewUrlParser: true,
