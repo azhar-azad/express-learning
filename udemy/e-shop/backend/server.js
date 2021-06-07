@@ -35,6 +35,7 @@ app.use(`${api}/categories`, categoryRouter);
 app.use(`${api}/users`, userRouter);
 app.use(`${api}/orders`, orderRouter);
 
+// mongodb connection
 mongoose.connect(conn_string, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -45,6 +46,7 @@ mongoose.connect(conn_string, {
     console.log(err);
 });
 
+// running the server
 app.listen(port, () => {
   console.log(`API Server is running on ${api_base_url}`);
 });

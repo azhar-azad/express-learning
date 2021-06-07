@@ -3,7 +3,6 @@ const Category = require('../models/category');
 const mongoose = require('mongoose');
 
 const createProduct = (req, res) => {
-
   Category.findById(req.body.category)
     .then()
     .catch(err => res.status(400).json({
@@ -11,11 +10,12 @@ const createProduct = (req, res) => {
       error: err
     }));
 
+  const fileName = req.file.filename;
   const productData = new Product({
     name: req.body.name,
     description: req.body.description,
     richDescription: req.body.richDescription,
-    image: req.body.image,
+    image: fileName,
     brand: req.body.brand,
     price: req.body.price,
     countInStock: req.body.countInStock,

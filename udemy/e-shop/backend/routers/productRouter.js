@@ -15,12 +15,26 @@ const {
   getProductFeaturedLimited
 } = require('../controllers/productController');
 
+const multer = require('multer'); // image upload library
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads');
+  },
+  filename: function (req, file, cb) {
+    // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const fileName = file.originalname.replace(' ', '-');
+    cb(null, fileName + '-' + Date.now());
+  }
+});
+const uploadOptions = multer({ storage: storage });
+
 /**
  * @URL: http://localhost:5000/api/{version}/products
  * @Description: Create a new Product entity
  * @Method: POST
 * */
-productRouter.post('/', createProduct);
+productRouter.post('/', uploadOptions.single('image'), createProduct);
 
 /**
  * @URL: http://localhost:5000/api/{version}/products
