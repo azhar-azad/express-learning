@@ -36,17 +36,14 @@ const getCategories = async (req, res) => {
   res.status(200).json(categories);
 };
 
-const getCategory = async (req, res) => {
-  const category = await Category.findById(req.params.id);
-
-  if (!category) {
-    res.status(500).json({
-      message: `Failed to fetch category with id ${req.params.id}`,
-      success: false
-    });
-  }
-
-  res.status(200).json(category);
+const getCategory = (req, res) => {
+  Category.findById(req.params.id)
+    .then(category => res.json(category))
+    .catch(err => res.status(400).json({
+      success: false,
+      error: err,
+      message: `Failed to fetch category with id ${req.params.id}`
+    }));
 };
 
 const updateCategory = async (req, res) => {

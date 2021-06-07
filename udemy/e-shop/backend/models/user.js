@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
     required: true
   },
   passwordHash: {
@@ -21,11 +22,11 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
-  street: {
+  apartment: {
     type: String,
     default: ''
   },
-  apartment: {
+  street: {
     type: String,
     default: ''
   },

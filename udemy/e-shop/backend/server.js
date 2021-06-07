@@ -4,12 +4,12 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+const {authJwt, errorHandler} = require('./helpers/helperFunctions');
 const productRouter = require('./routers/productRouter');
 const categoryRouter = require('./routers/categoryRouter');
+const userRouter = require('./routers/userRouter');
 
 const app = express();
-app.use(cors());
-app.options('*', cors());
 
 // env file read
 require('dotenv/config');
@@ -21,12 +21,17 @@ const conn_string = process.env.CONN_STRING;
 const api_base_url = `http://${host}:${port}${api}`;
 
 // middlewares
+app.use(cors());
+app.options('*', cors());
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
+app.use(authJwt()); // if this middleware is used, every api request have to be made with JWT token
+app.use(errorHandler);
 
 // routers
 app.use(`${api}/products`, productRouter);
 app.use(`${api}/categories`, categoryRouter);
+app.use(`${api}/users`, userRouter);
 
 mongoose.connect(conn_string, {
   useNewUrlParser: true,
