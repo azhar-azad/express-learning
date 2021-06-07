@@ -8,6 +8,7 @@ const {authJwt, errorHandler} = require('./helpers/helperFunctions');
 const productRouter = require('./routers/productRouter');
 const categoryRouter = require('./routers/categoryRouter');
 const userRouter = require('./routers/userRouter');
+const orderRouter = require('./routers/orderRouter');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(errorHandler);
 app.use(`${api}/products`, productRouter);
 app.use(`${api}/categories`, categoryRouter);
 app.use(`${api}/users`, userRouter);
+app.use(`${api}/orders`, orderRouter);
 
 mongoose.connect(conn_string, {
   useNewUrlParser: true,

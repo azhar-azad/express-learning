@@ -16,14 +16,6 @@ const createUser = (req, res) => {
     country: req.body.country
   });
 
-  // let user = await userData.save();
-  //
-  // if (!user) {
-  //   return res.status(404).send('Failed to create user');
-  // }
-  //
-  // res.send(user);
-
   userData.save()
     .then(createdUser => res.status(201).json(createdUser))
     .catch(err => res.status(500).json({
@@ -88,6 +80,18 @@ const deleteUser = (req, res) => {
     });
 };
 
+const getUserCount = (req, res) => {
+
+  User.countDocuments()
+    .then(count => res.json({
+      userCount: count
+    }))
+    .catch(err => res.status(400).json({
+      success: false,
+      error: err
+    }));
+};
+
 const loginUser = async (req, res) => {
   const user = await User.findOne({email: req.body.email});
 
@@ -112,15 +116,25 @@ const loginUser = async (req, res) => {
   }
 };
 
-const getUserCount = (req, res) => {
+const registerUser = (req, res) => {
+  const userData = new User({
+    name: req.body.name,
+    email: req.body.email,
+    passwordHash: bcrypt.hashSync(req.body.password, 10), // salt can be anything
+    phone: req.body.phone,
+    isAdmin: req.body.isAdmin,
+    apartment: req.body.apartment,
+    street: req.body.street,
+    city: req.body.city,
+    zip: req.body.zip,
+    country: req.body.country
+  });
 
-  User.countDocuments()
-    .then(count => res.json({
-      userCount: count
-    }))
-    .catch(err => res.status(400).json({
-      success: false,
-      error: err
+  userData.save()
+    .then(createdUser => res.status(201).json(createdUser))
+    .catch(err => res.status(500).json({
+      error: err,
+      success: false
     }));
 };
 
@@ -130,6 +144,7 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  getUserCount,
   loginUser,
-  getUserCount
+  registerUser
 };

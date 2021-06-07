@@ -9,8 +9,9 @@ const {
   getUser,
   updateUser,
   deleteUser,
+  getUserCount,
   loginUser,
-  getUserCount
+  registerUser
 } = require('../controllers/userController');
 
 /**
@@ -49,6 +50,13 @@ userRouter.put('/:id', updateUser);
 userRouter.delete('/:id', deleteUser);
 
 /**
+ * @URL: http://localhost:5000/api/{version}/users/get/count
+ * @Description: Get count of User entities
+ * @Method: GET
+ * */
+userRouter.get('/get/count', getUserCount);
+
+/**
  * @URL: http://localhost:5000/api/{version}/users/login
  * @Description: Login a User entity by email and password
  * @Method: POST
@@ -56,10 +64,10 @@ userRouter.delete('/:id', deleteUser);
 userRouter.post('/login', loginUser);
 
 /**
- * @URL: http://localhost:5000/api/{version}/users/get/count
- * @Description: Get count of User entities
- * @Method: GET
+ * @URL: http://localhost:5000/api/{version}/users/register
+ * @Description: Create a new User entity
+ * @Method: POST
  * */
-userRouter.get('/get/count', getUserCount);
+userRouter.post('/register', registerUser);
 
 module.exports = userRouter;
