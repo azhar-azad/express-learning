@@ -22,8 +22,7 @@ usrMappingRouter.post('/', createUsrMapping);
  * @URL: http://localhost:5000/api/{version}/usrMappings?cifNums&orgIds&usrIds
  * @Description: Get all UsrMapping entities
  * @Method: GET
- * @Special: Can filter records using query parameters
- * @Allowed_Query_Params: cifNums orgIds usrIds
+ * @Special: Use query parameter to search records by cif_num, org_id, usr_id
  * */
 usrMappingRouter.get('/', getUsrMappings);
 
