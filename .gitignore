@@ -4,6 +4,7 @@
 # node_modules
 js-mastery-node-express-api/node_modules/
 web-dev-simpli-express-mongo-api/node_modules/
+udemy/e-shop/backend/node_modules/
 practice/empl-mgmt-api/node_modules/
 practice/book-publisher-api/node_modules/
 practice/social-media-api/node_modules/
@@ -16,7 +17,7 @@ practice/express-ts-minimal/node_modules/
 practice/crud-app/node_modules/
 practice/crud-app-2/node_modules/
 practice/crud-app-3/node_modules/
-udemy/e-shop/backend/node_modules/
+practice/user-auth-system/node_modules/
 
 # projects to ignore
 practice/crud-app-2/
