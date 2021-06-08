@@ -1,7 +1,7 @@
 {
-  "name": "user-auth-system",
+  "name": "estmt-basic",
   "version": "1.0.0",
-  "description": "Basic User Authentication System with JWT ",
+  "description": "Basic E-Statement business API",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",

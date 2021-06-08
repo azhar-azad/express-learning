@@ -4,8 +4,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const userRouter = require('./userRouter');
-const { authJwt, errorHandler } = require('./helpers');
+const userRouter = require('./user-auth/userRouter');
+const orgRouter = require('./routers/orgRouter');
+const { authJwt, errorHandler } = require('./helpers/helpers');
 
 const app = express();
 
@@ -23,17 +24,17 @@ app.use(cors());
 app.options('*', cors());
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
-app.use(authJwt());
+// app.use(authJwt());
 app.use(errorHandler);
 
 // routers
 app.use(`${api}/users`, userRouter);
+app.use(`${api}/organizations`, orgRouter);
 
 // mongodb connection
 mongoose.connect(conn_string, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  dbName: 'user_auth_system_db'
+  useUnifiedTopology: true
 }).then(() => {
   console.log('Database connection is ready');
 }).catch(err => {
