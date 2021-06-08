@@ -1,77 +1,133 @@
+const mongoose = require('mongoose');
+const FinAccount = require('../models/finAccount');
 const Organization = require('../models/organization');
 
-const createOrganization = (req, res) => {
-  const orgData = new Organization({
-    org_uniquename: req.body.org_uniquename,
-    org_displayname: req.body.org_displayname,
-    schema_name: req.body.schema_name
+const createFinAccount = async (req, res) => {
+  console.log(':::::[createFinAccountApi]:::::');
+
+  if (req.body.org_id) {
+    // org_id validation
+    if (!mongoose.isValidObjectId(req.body.org_id)) {
+      res.status(400).send('Invalid Organization id');
+    }
+
+    // dependency check: org_id
+    try {
+      const org = await Organization.findById(req.body.org_id);
+      if (!org)
+        throw new Error();
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Organization found with id: ${req.body.org_id}`
+      });
+    }
+  }
+
+  // save finAccount with org_id
+  const finAccountData = new FinAccount({
+    acct_number: req.body.acct_number,
+    acct_owner_name: req.body.acct_owner_name,
+    type: req.body.type,
+    status: req.body.status,
+    org_id: req.body.org_id
   });
 
-  orgData.save()
-    .then(org => res.status(201).json(org))
+  finAccountData.save()
+    .then(finAcct => res.status(201).json(finAcct))
     .catch(err => res.status(500).json({
       error: err,
       success: false,
-      message: `Failed to create Organization`
+      message: `Failed to create FinAccount`
     }));
 };
 
-const getOrganizations = (req, res) => {
-  Organization.find()
-    // .sort({'org_uniquename': -1}) // sort by column
-    .then(orgs => res.status(200).json(orgs))
+const getFinAccounts = (req, res) => {
+  console.log(':::::[getFinAccountsApi]:::::');
+
+  FinAccount.find()
+    // .populate('org_id') // send org_data with finAcct data
+    .then(finAccts => res.status(200).json(finAccts))
     .catch(err => res.status(500).json({
       error: err,
       success: false,
-      message: `Failed to fetch Organization data`
+      message: `Failed to fetch FinAccount data`
     }));
 };
 
-const getOrganization = (req, res) => {
-  Organization.findById(req.params.id)
-    .then(org => res.status(200).json(org))
+const getFinAccount = (req, res) => {
+  console.log(':::::[getFinAccountApi]:::::');
+
+  FinAccount.findById(req.params.id)
+    .populate('org_id') // send org_data with finAcct data
+    .then(finAcct => res.status(200).json(finAcct))
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to fetch Organization with id: ${req.params.id}`
+      message: `Failed to fetch FinAccount with id: ${req.params.id}`
     }));
 };
 
-const updateOrganization = (req, res) => {
-  const updatedOrgData = {
-    org_uniquename: req.body.org_uniquename,
-    org_displayname: req.body.org_displayname,
-    schema_name: req.body.schema_name
+const updateFinAccount = async (req, res) => {
+  console.log(':::::[updateFinAccountApi]:::::');
+
+  if (req.body.org_id) {
+    // org_id validation
+    if (!mongoose.isValidObjectId(req.body.org_id)) {
+      res.status(400).send('Invalid Organization id');
+    }
+
+    // dependency check: org_id
+    try {
+      const org = await Organization.findById(req.body.org_id);
+      if (!org)
+        throw new Error();
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Organization found with id: ${req.body.org_id}`
+      });
+    }
+  }
+
+  const updatedFinAcctData = {
+    acct_number: req.body.acct_number,
+    acct_owner_name: req.body.acct_owner_name,
+    type: req.body.type,
+    status: req.body.status,
+    org_id: req.body.org_id
   };
 
-  Organization.findByIdAndUpdate(req.params.id, updatedOrgData, {new: true})
-    .then(updatedOrg => res.json(updatedOrg))
+  FinAccount.findByIdAndUpdate(req.params.id, updatedFinAcctData, {new: true})
+    .then(updatedFinAcct => res.json(updatedFinAcct))
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to update Organization with id: ${req.params.id}`
+      message: `Failed to update FinAccount with id: ${req.params.id}`
     }));
 };
 
-const deleteOrganization = (req, res) => {
-  Organization.findByIdAndRemove(req.params.id)
-    .then(deletedOrg => {
-      if (deletedOrg)
-        return res.status(200).json({success: true, message: 'Organization is deleted'})
+const deleteFinAccount = (req, res) => {
+  console.log(':::::[deleteFinAccountApi]:::::');
+
+  FinAccount.findByIdAndRemove(req.params.id)
+    .then(deletedFinAcct => {
+      if (deletedFinAcct)
+        return res.status(200).json({success: true, message: 'FinAccount is deleted'})
       else
-        return res.status(404).json({success: false, message: 'Organization not found'})
+        return res.status(404).json({success: false, message: 'FinAccount not found'})
     })
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to deleted Organization with id: ${req.params.id}`
+      message: `Failed to deleted FinAccount with id: ${req.params.id}`
     }));
 };
 
 module.exports = {
-  createOrganization,
-  getOrganizations,
-  getOrganization,
-  updateOrganization,
-  deleteOrganization
+  createFinAccount,
+  getFinAccounts,
+  getFinAccount,
+  updateFinAccount,
+  deleteFinAccount
 };

@@ -1,49 +1,49 @@
 /**
- * @Path: /organizations
+ * @Path: /finAccounts
  * @Description:
  * */
-const orgRouter = require('express').Router();
+const finAcctRouter = require('express').Router();
 const {
-  createOrganization,
-  getOrganizations,
-  getOrganization,
-  updateOrganization,
-  deleteOrganization
-} = require('../controllers/orgController');
+  createFinAccount,
+  getFinAccounts,
+  getFinAccount,
+  updateFinAccount,
+  deleteFinAccount
+} = require('../controllers/finAccountController');
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations
- * @Description: Create a new Organization entity
+ * @URL: http://localhost:5000/api/{version}/finAccounts
+ * @Description: Create a new FinAccount entity
  * @Method: POST
  * */
-orgRouter.post('/', createOrganization);
+finAcctRouter.post('/', createFinAccount);
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations
- * @Description: Get all Organization entities
+ * @URL: http://localhost:5000/api/{version}/finAccounts
+ * @Description: Get all FinAccount entities
  * @Method: GET
  * */
-orgRouter.get('/', getOrganizations);
+finAcctRouter.get('/', getFinAccounts);
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations/{categoryId}
- * @Description: Get a Organization entity by id
+ * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
+ * @Description: Get a FinAccount entity by id
  * @Method: GET
  * */
-orgRouter.get('/:id', getOrganization);
+finAcctRouter.get('/:id', getFinAccount);
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations/{categoryId}
- * @Description: Update a Organization entity by id
+ * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
+ * @Description: Update a FinAccount entity by id
  * @Method: PUT
  * */
-orgRouter.put('/:id', updateOrganization);
+finAcctRouter.put('/:id', updateFinAccount);
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations/{categoryId}
- * @Description: Delete a Organization entity by id
+ * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
+ * @Description: Delete a FinAccount entity by id
  * @Method: DELETE
  * */
-orgRouter.delete('/:id', deleteOrganization);
+finAcctRouter.delete('/:id', deleteFinAccount);
 
-module.exports = orgRouter;
+module.exports = finAcctRouter;

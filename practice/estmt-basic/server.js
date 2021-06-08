@@ -6,6 +6,7 @@ const morgan = require('morgan');
 
 const userRouter = require('./user-auth/userRouter');
 const orgRouter = require('./routers/orgRouter');
+const finAcctRouter = require('./routers/finAccountRouter');
 const { authJwt, errorHandler } = require('./helpers/helpers');
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(errorHandler);
 // routers
 app.use(`${api}/users`, userRouter);
 app.use(`${api}/organizations`, orgRouter);
+app.use(`${api}/finAccounts`, finAcctRouter);
 
 // mongodb connection
 mongoose.connect(conn_string, {
