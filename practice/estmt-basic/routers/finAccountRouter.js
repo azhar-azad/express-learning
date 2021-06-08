@@ -26,21 +26,21 @@ finAcctRouter.post('/', createFinAccount);
 finAcctRouter.get('/', getFinAccounts);
 
 /**
- * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
+ * @URL: http://localhost:5000/api/{version}/finAccounts/{finAcctId}
  * @Description: Get a FinAccount entity by id
  * @Method: GET
  * */
 finAcctRouter.get('/:id', getFinAccount);
 
 /**
- * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
+ * @URL: http://localhost:5000/api/{version}/finAccounts/{finAcctId}
  * @Description: Update a FinAccount entity by id
  * @Method: PUT
  * */
 finAcctRouter.put('/:id', updateFinAccount);
 
 /**
- * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
+ * @URL: http://localhost:5000/api/{version}/finAccounts/{finAcctId}
  * @Description: Delete a FinAccount entity by id
  * @Method: DELETE
  * */

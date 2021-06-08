@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
 const FinAccount = require('../models/finAccount');
-const Organization = require('../models/organization');
+const { validateRequest } = require('../helpers/requestValidators');
 
 /**
  * @Dependency: Organization
@@ -9,24 +8,7 @@ const Organization = require('../models/organization');
 const createFinAccount = async (req, res) => {
   console.log(':::::[createFinAccountApi]:::::');
 
-  if (req.body.org_id) {
-    // org_id validation
-    if (!mongoose.isValidObjectId(req.body.org_id)) {
-      res.status(400).send('Invalid Organization id');
-    }
-
-    // dependency check: org_id
-    try {
-      const org = await Organization.findById(req.body.org_id);
-      if (!org)
-        throw new Error();
-    } catch(err) {
-      res.status(400).json({
-        success: false,
-        message: `No Organization found with id: ${req.body.org_id}`
-      });
-    }
-  }
+  await validateRequest(req, res);
 
   // save finAccount with org_id
   const finAccountData = new FinAccount({
@@ -75,24 +57,7 @@ const getFinAccount = (req, res) => {
 const updateFinAccount = async (req, res) => {
   console.log(':::::[updateFinAccountApi]:::::');
 
-  if (req.body.org_id) {
-    // org_id validation
-    if (!mongoose.isValidObjectId(req.body.org_id)) {
-      res.status(400).send('Invalid Organization id');
-    }
-
-    // dependency check: org_id
-    try {
-      const org = await Organization.findById(req.body.org_id);
-      if (!org)
-        throw new Error();
-    } catch(err) {
-      res.status(400).json({
-        success: false,
-        message: `No Organization found with id: ${req.body.org_id}`
-      });
-    }
-  }
+  await validateRequest(req, res);
 
   const updatedFinAcctData = {
     acct_number: req.body.acct_number,
