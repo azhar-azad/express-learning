@@ -1,28 +1,73 @@
+const mongoose = require('mongoose');
 const UsrMapping = require('../models/usrMapping');
-const { validateRequest } = require('../helpers/requestValidators');
+const Organization = require('../models/organization');
+const Usr = require('../models/usr');
 
 /**
- * @Dependencies: Organization, UsrMapping
+ * @Dependencies: Organization, Usr
  * */
 
 const createUsrMapping = async (req, res) => {
   console.log(':::::[createUsrMappingApi]:::::');
 
-  await validateRequest(req, res);
+  let isValid = true;
 
-  const usrMappingData = new UsrMapping({
-    cif_num: req.body.cif_num,
-    org_id: req.body.org_id,
-    usr_id: req.body.usr_id
-  });
+  // org_id validation
+  if (req.body.org_id) {
+    if (!mongoose.isValidObjectId(req.body.org_id)) {
+      res.status(400).send('Invalid Organization id');
+    }
 
-  usrMappingData.save()
-    .then(usrMapping => res.status(201).json(usrMapping))
-    .catch(err => res.status(500).json({
-      error: err,
-      success: false,
-      message: `Failed to create UsrMapping`
-    }));
+    try {
+      const org = await Organization.findById(req.body.org_id);
+      console.log('org ==> ' + org);
+      if (!org) {
+        throw new Error();
+      }
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Organization found with id: ${req.body.org_id}`
+      });
+    }
+  }
+  // org_id validation - end
+
+  // usr_id validation
+  if (req.body.usr_id) {
+    if (!mongoose.isValidObjectId(req.body.usr_id)) {
+      res.status(400).send('Invalid Usr id');
+    }
+
+    try {
+      const usr = await Usr.findById(req.body.usr_id);
+      if (!usr) {
+        throw new Error();
+      }
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Usr found with id: ${req.body.usr_id}`
+      });
+    }
+  }
+  // usr_id validation - end
+
+  if (isValid) {
+    const usrMappingData = new UsrMapping({
+      cif_num: req.body.cif_num,
+      org_id: req.body.org_id,
+      usr_id: req.body.usr_id
+    });
+
+    usrMappingData.save()
+      .then(usrMapping => res.status(201).json(usrMapping))
+      .catch(err => res.status(500).json({
+        error: err,
+        success: false,
+        message: `Failed to create UsrMapping`
+      }));
+  }
 };
 
 const getUsrMappings = (req, res) => {
@@ -48,7 +93,7 @@ const getUsrMapping = (req, res) => {
   UsrMapping.findById(req.params.id)
     .populate('org_id')
     .populate('usr_id')
-    .then(usr => res.status(200).json(usr))
+    .then(usrMapping => res.status(200).json(usrMapping))
     .catch(err => res.status(400).json({
       error: err,
       success: false,
@@ -59,21 +104,64 @@ const getUsrMapping = (req, res) => {
 const updateUsrMapping = async (req, res) => {
   console.log(':::::[updateUsrMappingApi]:::::');
 
-  await validateRequest(req, res);
+  let isValid = true;
 
-  const updatedUsrMappingData = {
-    cif_num: req.body.cif_num,
-    org_id: req.body.org_id,
-    usr_id: req.body.usr_id
-  };
+  // org_id validation
+  if (req.body.org_id) {
+    if (!mongoose.isValidObjectId(req.body.org_id)) {
+      res.status(400).send('Invalid Organization id');
+    }
 
-  UsrMapping.findByIdAndUpdate(req.params.id, updatedUsrMappingData, {new: true})
-    .then(updatedUsrMapping => res.json(updatedUsrMapping))
-    .catch(err => res.status(400).json({
-      error: err,
-      success: false,
-      message: `Failed to update UsrMapping with id: ${req.params.id}`
-    }));
+    try {
+      const org = await Organization.findById(req.body.org_id);
+      console.log('org ==> ' + org);
+      if (!org) {
+        throw new Error();
+      }
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Organization found with id: ${req.body.org_id}`
+      });
+    }
+  }
+  // org_id validation - end
+
+  // usr_id validation
+  if (req.body.usr_id) {
+    if (!mongoose.isValidObjectId(req.body.usr_id)) {
+      res.status(400).send('Invalid Usr id');
+    }
+
+    try {
+      const usr = await Usr.findById(req.body.usr_id);
+      if (!usr) {
+        throw new Error();
+      }
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Usr found with id: ${req.body.usr_id}`
+      });
+    }
+  }
+  // usr_id validation - end
+
+  if (isValid) {
+    const updatedUsrMappingData = {
+      cif_num: req.body.cif_num,
+      org_id: req.body.org_id,
+      usr_id: req.body.usr_id
+    };
+
+    UsrMapping.findByIdAndUpdate(req.params.id, updatedUsrMappingData, {new: true})
+      .then(updatedUsrMapping => res.json(updatedUsrMapping))
+      .catch(err => res.status(400).json({
+        error: err,
+        success: false,
+        message: `Failed to update UsrMapping with id: ${req.params.id}`
+      }));
+  }
 };
 
 const deleteUsrMapping = (req, res) => {

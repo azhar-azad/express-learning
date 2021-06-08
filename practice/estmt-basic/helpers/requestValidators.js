@@ -43,6 +43,3 @@ const validateRequest = async (req, res) => {
   // usr_id validation - end
 }
 
-module.exports = {
-  validateRequest
-}
