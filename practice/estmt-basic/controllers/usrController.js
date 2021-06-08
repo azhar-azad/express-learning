@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const FinAccount = require('../models/finAccount');
 const Organization = require('../models/organization');
 
-/**
- * @Dependency: Organization
- * */
-
 const createFinAccount = async (req, res) => {
   console.log(':::::[createFinAccountApi]:::::');
 

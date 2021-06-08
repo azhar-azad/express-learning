@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const Organization = require('../models/organization');
 
+/**
+ * @Dependency: No dependency
+ * */
+
 const createOrganization = (req, res) => {
   console.log(':::::[createOrganization]:::::');
 
