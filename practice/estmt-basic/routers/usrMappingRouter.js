@@ -26,21 +26,21 @@ usrRouter.post('/', createUsr);
 usrRouter.get('/', getUsrs);
 
 /**
- * @URL: http://localhost:5000/api/{version}/usrs/{usrId}
+ * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
  * @Description: Get a Usr entity by id
  * @Method: GET
  * */
 usrRouter.get('/:id', getUsr);
 
 /**
- * @URL: http://localhost:5000/api/{version}/usrs/{usrId}
+ * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
  * @Description: Update a Usr entity by id
  * @Method: PUT
  * */
 usrRouter.put('/:id', updateUsr);
 
 /**
- * @URL: http://localhost:5000/api/{version}/usrs/{usrId}
+ * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
  * @Description: Delete a Usr entity by id
  * @Method: DELETE
  * */
