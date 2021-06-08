@@ -1,49 +1,49 @@
 /**
- * @Path: /finAccounts
+ * @Path: /usrs
  * @Description:
  * */
-const finAcctRouter = require('express').Router();
+const usrRouter = require('express').Router();
 const {
-  createFinAccount,
-  getFinAccounts,
-  getFinAccount,
-  updateFinAccount,
-  deleteFinAccount
-} = require('../controllers/finAccountController');
+  createUsr,
+  getUsrs,
+  getUsr,
+  updateUsr,
+  deleteUsr
+} = require('../controllers/usrController');
 
 /**
- * @URL: http://localhost:5000/api/{version}/finAccounts
- * @Description: Create a new FinAccount entity
+ * @URL: http://localhost:5000/api/{version}/usrs
+ * @Description: Create a new Usr entity
  * @Method: POST
  * */
-finAcctRouter.post('/', createFinAccount);
+usrRouter.post('/', createUsr);
 
 /**
- * @URL: http://localhost:5000/api/{version}/finAccounts
- * @Description: Get all FinAccount entities
+ * @URL: http://localhost:5000/api/{version}/usrs
+ * @Description: Get all Usr entities
  * @Method: GET
  * */
-finAcctRouter.get('/', getFinAccounts);
+usrRouter.get('/', getUsrs);
 
 /**
- * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
- * @Description: Get a FinAccount entity by id
+ * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
+ * @Description: Get a Usr entity by id
  * @Method: GET
  * */
-finAcctRouter.get('/:id', getFinAccount);
+usrRouter.get('/:id', getUsr);
 
 /**
- * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
- * @Description: Update a FinAccount entity by id
+ * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
+ * @Description: Update a Usr entity by id
  * @Method: PUT
  * */
-finAcctRouter.put('/:id', updateFinAccount);
+usrRouter.put('/:id', updateUsr);
 
 /**
- * @URL: http://localhost:5000/api/{version}/finAccounts/{categoryId}
- * @Description: Delete a FinAccount entity by id
+ * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
+ * @Description: Delete a Usr entity by id
  * @Method: DELETE
  * */
-finAcctRouter.delete('/:id', deleteFinAccount);
+usrRouter.delete('/:id', deleteUsr);
 
-module.exports = finAcctRouter;
+module.exports = usrRouter;
