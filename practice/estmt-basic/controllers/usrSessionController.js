@@ -1,104 +1,196 @@
-const UsrMapping = require('../models/usrMapping');
-const { validateRequest } = require('../helpers/requestValidators');
+const UsrSession = require('../models/usrSession');
+const mongoose = require('mongoose');
+const Organization = require('../models/organization');
+const Usr = require('../models/usr');
 
 /**
- * @Dependencies: Organization, UsrMapping
+ * @Dependencies: Organization, Usr
  * */
 
-const createUsrMapping = async (req, res) => {
-  console.log(':::::[createUsrMappingApi]:::::');
+const createUsrSession = async (req, res) => {
+  console.log(':::::[createUsrSessionApi]:::::');
 
-  await validateRequest(req, res);
+  let isValid = true;
 
-  const usrMappingData = new UsrMapping({
-    cif_num: req.body.cif_num,
-    org_id: req.body.org_id,
-    usr_id: req.body.usr_id
-  });
+  // org_id validation
+  if (req.body.org_id) {
+    if (!mongoose.isValidObjectId(req.body.org_id)) {
+      res.status(400).send('Invalid Organization id');
+    }
 
-  usrMappingData.save()
-    .then(usrMapping => res.status(201).json(usrMapping))
-    .catch(err => res.status(500).json({
-      error: err,
-      success: false,
-      message: `Failed to create UsrMapping`
-    }));
+    try {
+      const org = await Organization.findById(req.body.org_id);
+      console.log('org ==> ' + org);
+      if (!org) {
+        throw new Error();
+      }
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Organization found with id: ${req.body.org_id}`
+      });
+    }
+  }
+  // org_id validation - end
+
+  // usr_id validation
+  if (req.body.usr_id) {
+    if (!mongoose.isValidObjectId(req.body.usr_id)) {
+      res.status(400).send('Invalid Usr id');
+    }
+
+    try {
+      const usr = await Usr.findById(req.body.usr_id);
+      if (!usr) {
+        throw new Error();
+      }
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Usr found with id: ${req.body.usr_id}`
+      });
+    }
+  }
+  // usr_id validation - end
+
+  if (isValid) {
+    const usrSessionData = new UsrSession({
+      sess_login_id: req.body.sess_login_id,
+      ses_active_status: req.body.ses_active_status,
+      sso_key: req.body.sso_key,
+      org_id: req.body.org_id,
+      usr_id: req.body.usr_id
+    });
+
+    usrSessionData.save()
+      .then(usrSession => res.status(201).json(usrSession))
+      .catch(err => res.status(500).json({
+        error: err,
+        success: false,
+        message: `Failed to create UsrSession`
+      }));
+  }
 };
 
-const getUsrMappings = (req, res) => {
-  console.log(':::::[getUsrMappingsApi]:::::');
+const getUsrSessions = (req, res) => {
+  console.log(':::::[getUsrSessionsApi]:::::');
 
   let filter = {};
-  if (req.query.cifNums) filter.cif_num = req.query.cifNums.split(',');
+  if (req.query.sessLoginIds) filter.sess_login_id = req.query.sessLoginIds.split(',');
+  if (req.query.ssoKeys) filter.sso_key = req.query.ssoKeys.split(',');
   if (req.query.usrIds) filter.usr_id = req.query.usrIds.split(',');
   if (req.query.orgIds) filter.org_id = req.query.orgIds.split(',');
 
-  UsrMapping.find(filter)
+  UsrSession.find(filter)
     .then(usrMappings => res.status(200).json(usrMappings))
     .catch(err => res.status(500).json({
       error: err,
       success: false,
-      message: `Failed to fetch UsrMapping data`
+      message: `Failed to fetch UsrSession data`
     }));
 };
 
-const getUsrMapping = (req, res) => {
-  console.log(':::::[getUsrMappingApi]:::::');
+const getUsrSession = (req, res) => {
+  console.log(':::::[getUsrSessionApi]:::::');
 
-  UsrMapping.findById(req.params.id)
+  UsrSession.findById(req.params.id)
     .populate('org_id')
     .populate('usr_id')
-    .then(usr => res.status(200).json(usr))
+    .then(usrSession => res.status(200).json(usrSession))
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to fetch UsrMapping with id: ${req.params.id}`
+      message: `Failed to fetch UsrSession with id: ${req.params.id}`
     }));
 };
 
-const updateUsrMapping = async (req, res) => {
-  console.log(':::::[updateUsrMappingApi]:::::');
+const updateUsrSession = async (req, res) => {
+  console.log(':::::[updateUsrSessionApi]:::::');
 
-  await validateRequest(req, res);
+  let isValid = true;
 
-  const updatedUsrMappingData = {
-    cif_num: req.body.cif_num,
-    org_id: req.body.org_id,
-    usr_id: req.body.usr_id
-  };
+  // org_id validation
+  if (req.body.org_id) {
+    if (!mongoose.isValidObjectId(req.body.org_id)) {
+      res.status(400).send('Invalid Organization id');
+    }
 
-  UsrMapping.findByIdAndUpdate(req.params.id, updatedUsrMappingData, {new: true})
-    .then(updatedUsrMapping => res.json(updatedUsrMapping))
-    .catch(err => res.status(400).json({
-      error: err,
-      success: false,
-      message: `Failed to update UsrMapping with id: ${req.params.id}`
-    }));
+    try {
+      const org = await Organization.findById(req.body.org_id);
+      console.log('org ==> ' + org);
+      if (!org) {
+        throw new Error();
+      }
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Organization found with id: ${req.body.org_id}`
+      });
+    }
+  }
+  // org_id validation - end
+
+  // usr_id validation
+  if (req.body.usr_id) {
+    if (!mongoose.isValidObjectId(req.body.usr_id)) {
+      res.status(400).send('Invalid Usr id');
+    }
+
+    try {
+      const usr = await Usr.findById(req.body.usr_id);
+      if (!usr) {
+        throw new Error();
+      }
+    } catch(err) {
+      res.status(400).json({
+        success: false,
+        message: `No Usr found with id: ${req.body.usr_id}`
+      });
+    }
+  }
+  // usr_id validation - end
+
+  if (isValid) {
+    const updatedUsrSessionData = {
+      sess_login_id: req.body.sess_login_id,
+      ses_active_status: req.body.ses_active_status,
+      sso_key: req.body.sso_key,
+      org_id: req.body.org_id,
+      usr_id: req.body.usr_id
+    };
+
+    UsrSession.findByIdAndUpdate(req.params.id, updatedUsrSessionData, {new: true})
+      .then(updatedUsrSession => res.json(updatedUsrSession))
+      .catch(err => res.status(400).json({
+        error: err,
+        success: false,
+        message: `Failed to update UsrSession with id: ${req.params.id}`
+      }));
+  }
 };
 
-const deleteUsrMapping = (req, res) => {
-  console.log(':::::[deleteUsrMappingApi]:::::');
+const deleteUsrSession = (req, res) => {
+  console.log(':::::[deleteUsrSessionApi]:::::');
 
-  UsrMapping.findByIdAndRemove(req.params.id)
-    .then(deletedUsrMapping => {
-      if (deletedUsrMapping)
-        return res.status(200).json({success: true, message: 'UsrMapping is deleted'})
+  UsrSession.findByIdAndRemove(req.params.id)
+    .then(deletedUsrSession => {
+      if (deletedUsrSession)
+        return res.status(200).json({success: true, message: 'UsrSession is deleted'})
       else
-        return res.status(404).json({success: false, message: 'UsrMapping not found'})
+        return res.status(404).json({success: false, message: 'UsrSession not found'})
     })
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to deleted UsrMapping with id: ${req.params.id}`
+      message: `Failed to deleted UsrSession with id: ${req.params.id}`
     }));
 };
 
-
 module.exports = {
-  createUsrMapping,
-  getUsrMappings,
-  getUsrMapping,
-  updateUsrMapping,
-  deleteUsrMapping
+  createUsrSession,
+  getUsrSessions,
+  getUsrSession,
+  updateUsrSession,
+  deleteUsrSession
 };
 

@@ -5,8 +5,11 @@ const usrSessionSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  sess_password: {
-    type: String
+  ses_active_status: {
+    type: String,
+  },
+  sso_key: {
+    type: String,
   },
   sso: {
     type: Date,
@@ -26,6 +29,8 @@ const usrSessionSchema = mongoose.Schema({
     ref: 'Usr',
     required: true
   }
+}, {
+  timestamps: true
 });
 
 usrSessionSchema.virtual('id').get(function () {
