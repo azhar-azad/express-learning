@@ -8,6 +8,7 @@ const userRouter = require('./user-auth/userRouter');
 const orgRouter = require('./routers/orgRouter');
 const finAcctRouter = require('./routers/finAccountRouter');
 const usrRouter = require('./routers/usrRouter');
+const usrMappingRouter = require('./routers/usrMappingRouter');
 const { authJwt, errorHandler } = require('./helpers/helpers');
 
 const app = express();
@@ -34,6 +35,7 @@ app.use(`${api}/users`, userRouter);
 app.use(`${api}/organizations`, orgRouter);
 app.use(`${api}/finAccounts`, finAcctRouter);
 app.use(`${api}/usrs`, usrRouter);
+app.use(`${api}/usrMappings`, usrMappingRouter);
 
 // mongodb connection
 mongoose.connect(conn_string, {

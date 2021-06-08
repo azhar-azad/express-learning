@@ -1,49 +1,50 @@
 /**
- * @Path: /usrs
+ * @Path: /usrMappings
  * @Description:
  * */
-const usrRouter = require('express').Router();
+const usrMappingRouter = require('express').Router();
 const {
-  createUsr,
-  getUsrs,
-  getUsr,
-  updateUsr,
-  deleteUsr
-} = require('../controllers/usrController');
+  createUsrMapping,
+  getUsrMappings,
+  getUsrMapping,
+  updateUsrMapping,
+  deleteUsrMapping
+} = require('../controllers/usrMappingController');
 
 /**
- * @URL: http://localhost:5000/api/{version}/usrs
- * @Description: Create a new Usr entity
+ * @URL: http://localhost:5000/api/{version}/usrMappings
+ * @Description: Create a new UsrMapping entity
  * @Method: POST
  * */
-usrRouter.post('/', createUsr);
+usrMappingRouter.post('/', createUsrMapping);
 
 /**
- * @URL: http://localhost:5000/api/{version}/usrs
- * @Description: Get all Usr entities
+ * @URL: http://localhost:5000/api/{version}/usrMappings?cifNums&orgIds&usrIds
+ * @Description: Get all UsrMapping entities
+ * @Method: GET
+ * @Special: Use query parameter to search records by cif_num, org_id, usr_id
+ * */
+usrMappingRouter.get('/', getUsrMappings);
+
+/**
+ * @URL: http://localhost:5000/api/{version}/usrMappings/{usrMappingId}
+ * @Description: Get a UsrMapping entity by id
  * @Method: GET
  * */
-usrRouter.get('/', getUsrs);
+usrMappingRouter.get('/:id', getUsrMapping);
 
 /**
- * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
- * @Description: Get a Usr entity by id
- * @Method: GET
- * */
-usrRouter.get('/:id', getUsr);
-
-/**
- * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
- * @Description: Update a Usr entity by id
+ * @URL: http://localhost:5000/api/{version}/usrMappings/{usrMappingId}
+ * @Description: Update a UsrMapping entity by id
  * @Method: PUT
  * */
-usrRouter.put('/:id', updateUsr);
+usrMappingRouter.put('/:id', updateUsrMapping);
 
 /**
- * @URL: http://localhost:5000/api/{version}/usrs/{categoryId}
- * @Description: Delete a Usr entity by id
+ * @URL: http://localhost:5000/api/{version}/usrMappings/{usrMappingId}
+ * @Description: Delete a UsrMapping entity by id
  * @Method: DELETE
  * */
-usrRouter.delete('/:id', deleteUsr);
+usrMappingRouter.delete('/:id', deleteUsrMapping);
 
-module.exports = usrRouter;
+module.exports = usrMappingRouter;
