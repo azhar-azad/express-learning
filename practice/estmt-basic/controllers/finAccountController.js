@@ -1,9 +1,6 @@
-const mongoose = require('mongoose');
 const Organization = require('../models/organization');
 
 const createOrganization = (req, res) => {
-  console.log(':::::[createOrganization]:::::');
-
   const orgData = new Organization({
     org_uniquename: req.body.org_uniquename,
     org_displayname: req.body.org_displayname,
@@ -20,8 +17,6 @@ const createOrganization = (req, res) => {
 };
 
 const getOrganizations = (req, res) => {
-  console.log(':::::[getOrganizationsApi]:::::');
-
   Organization.find()
     // .sort({'org_uniquename': -1}) // sort by column
     .then(orgs => res.status(200).json(orgs))
@@ -33,8 +28,6 @@ const getOrganizations = (req, res) => {
 };
 
 const getOrganization = (req, res) => {
-  console.log(':::::[getOrganizationApi]:::::');
-
   Organization.findById(req.params.id)
     .then(org => res.status(200).json(org))
     .catch(err => res.status(400).json({
@@ -45,12 +38,6 @@ const getOrganization = (req, res) => {
 };
 
 const updateOrganization = (req, res) => {
-  console.log(':::::[updateOrganizationApi]:::::');
-
-  if (!mongoose.isValidObjectId(req.params.id)) { // validating id
-    res.status(400).send('Invalid Organization id');
-  }
-
   const updatedOrgData = {
     org_uniquename: req.body.org_uniquename,
     org_displayname: req.body.org_displayname,
@@ -67,8 +54,6 @@ const updateOrganization = (req, res) => {
 };
 
 const deleteOrganization = (req, res) => {
-  console.log(':::::[deleteOrganizationApi]:::::');
-
   Organization.findByIdAndRemove(req.params.id)
     .then(deletedOrg => {
       if (deletedOrg)
