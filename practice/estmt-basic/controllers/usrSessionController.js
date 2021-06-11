@@ -15,16 +15,17 @@ const createUsrSession = async (req, res) => {
   // org_id validation
   if (req.body.org_id) {
     if (!mongoose.isValidObjectId(req.body.org_id)) {
+      isValid = false;
       res.status(400).send('Invalid Organization id');
     }
 
     try {
       const org = await Organization.findById(req.body.org_id);
-      console.log('org ==> ' + org);
       if (!org) {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Organization found with id: ${req.body.org_id}`
@@ -36,6 +37,7 @@ const createUsrSession = async (req, res) => {
   // usr_id validation
   if (req.body.usr_id) {
     if (!mongoose.isValidObjectId(req.body.usr_id)) {
+      isValid = false;
       res.status(400).send('Invalid Usr id');
     }
 
@@ -45,6 +47,7 @@ const createUsrSession = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Usr found with id: ${req.body.usr_id}`
@@ -75,14 +78,30 @@ const createUsrSession = async (req, res) => {
 const getUsrSessions = (req, res) => {
   console.log(':::::[getUsrSessionsApi]:::::');
 
-  let filter = {};
-  if (req.query.sessLoginIds) filter.sess_login_id = req.query.sessLoginIds.split(',');
-  if (req.query.ssoKeys) filter.sso_key = req.query.ssoKeys.split(',');
-  if (req.query.usrIds) filter.usr_id = req.query.usrIds.split(',');
-  if (req.query.orgIds) filter.org_id = req.query.orgIds.split(',');
+  let filters = {};
+  if (req.query.sessLoginIds) filters.sess_login_id = req.query.sessLoginIds.split(',');
+  if (req.query.ssoKeys) filters.sso_key = req.query.ssoKeys.split(',');
+  if (req.query.usrIds) filters.usr_id = req.query.usrIds.split(',');
+  if (req.query.orgIds) filters.org_id = req.query.orgIds.split(',');
 
-  UsrSession.find(filter)
-    .then(usrMappings => res.status(200).json(usrMappings))
+  let usr = req.query.usr;
+  let org = req.query.org;
+
+  if (usr) {
+    if (usr === 'no' || usr === 'n' ||
+        usr === 'NO' || usr === 'N')
+      usr = null;
+  }
+  if (org) {
+    if (org === 'no' || org === 'n' ||
+        org === 'NO' || org === 'N')
+      org = null;
+  }
+
+  UsrSession.find(filters)
+    .populate(usr ? 'usr_id' : '')
+    .populate(org ? 'org_id' : '')
+    .then(usrSessions => res.status(200).json(usrSessions))
     .catch(err => res.status(500).json({
       error: err,
       success: false,
@@ -112,6 +131,7 @@ const updateUsrSession = async (req, res) => {
   // org_id validation
   if (req.body.org_id) {
     if (!mongoose.isValidObjectId(req.body.org_id)) {
+      isValid = false;
       res.status(400).send('Invalid Organization id');
     }
 
@@ -122,6 +142,7 @@ const updateUsrSession = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Organization found with id: ${req.body.org_id}`
@@ -133,6 +154,7 @@ const updateUsrSession = async (req, res) => {
   // usr_id validation
   if (req.body.usr_id) {
     if (!mongoose.isValidObjectId(req.body.usr_id)) {
+      isValid = false;
       res.status(400).send('Invalid Usr id');
     }
 
@@ -142,6 +164,7 @@ const updateUsrSession = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Usr found with id: ${req.body.usr_id}`
@@ -171,6 +194,10 @@ const updateUsrSession = async (req, res) => {
 
 const deleteUsrSession = (req, res) => {
   console.log(':::::[deleteUsrSessionApi]:::::');
+
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    res.status(400).send('Invalid UsrSession id');
+  }
 
   UsrSession.findByIdAndRemove(req.params.id)
     .then(deletedUsrSession => {

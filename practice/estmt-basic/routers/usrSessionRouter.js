@@ -23,7 +23,7 @@ usrSessionRouter.post('/', createUsrSession);
  * @Description: Get all UsrSession entities
  * @Method: GET
  * @Special: Can filter records using query parameters
- * @Allowed_Query_Params:
+ * @Allowed_Query_Params: sessLoginIds, ssoKeys, usrIds, orgIds, usr, org
  * */
 usrSessionRouter.get('/', getUsrSessions);
 
