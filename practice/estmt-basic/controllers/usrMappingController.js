@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const UsrMapping = require('../models/usrMapping');
 const Organization = require('../models/organization');
 const Usr = require('../models/usr');
+const { getOrgIdsByOrgNames } = require('../helpers/helpers');
 
 /**
  * @Dependencies: Organization, Usr
@@ -15,6 +16,7 @@ const createUsrMapping = async (req, res) => {
   // org_id validation
   if (req.body.org_id) {
     if (!mongoose.isValidObjectId(req.body.org_id)) {
+      isValid = false;
       res.status(400).send('Invalid Organization id');
     }
 
@@ -25,6 +27,7 @@ const createUsrMapping = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Organization found with id: ${req.body.org_id}`
@@ -36,6 +39,7 @@ const createUsrMapping = async (req, res) => {
   // usr_id validation
   if (req.body.usr_id) {
     if (!mongoose.isValidObjectId(req.body.usr_id)) {
+      isValid = false;
       res.status(400).send('Invalid Usr id');
     }
 
@@ -45,6 +49,7 @@ const createUsrMapping = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Usr found with id: ${req.body.usr_id}`
@@ -70,15 +75,34 @@ const createUsrMapping = async (req, res) => {
   }
 };
 
-const getUsrMappings = (req, res) => {
+const getUsrMappings = async (req, res) => {
   console.log(':::::[getUsrMappingsApi]:::::');
 
-  let filter = {};
-  if (req.query.cifNums) filter.cif_num = req.query.cifNums.split(',');
-  if (req.query.usrIds) filter.usr_id = req.query.usrIds.split(',');
-  if (req.query.orgIds) filter.org_id = req.query.orgIds.split(',');
+  let filters = {};
+  if (req.query.cifNums)
+    filters.cif_num = req.query.cifNums.split(',');
+  if (req.query.usrIds)
+    filters.usr_id = req.query.usrIds.split(',');
+  if (req.query.orgNames)
+    filters.org_id = await getOrgIdsByOrgNames(req.query.orgNames.split(','));
 
-  UsrMapping.find(filter)
+  let usr = req.query.usr;
+  let org = req.query.org;
+
+  if (usr) {
+    if (usr === 'no' || usr === 'n' ||
+      usr === 'NO' || usr === 'N')
+      usr = null;
+  }
+  if (org) {
+    if (org === 'no' || org === 'n' ||
+      org === 'NO' || org === 'N')
+      org = null;
+  }
+
+  UsrMapping.find(filters)
+    .populate(org ? 'org_id' : null)
+    .populate(usr ? 'usr_id' : null)
     .then(usrMappings => res.status(200).json(usrMappings))
     .catch(err => res.status(500).json({
       error: err,
@@ -109,6 +133,7 @@ const updateUsrMapping = async (req, res) => {
   // org_id validation
   if (req.body.org_id) {
     if (!mongoose.isValidObjectId(req.body.org_id)) {
+      isValid = false;
       res.status(400).send('Invalid Organization id');
     }
 
@@ -119,6 +144,7 @@ const updateUsrMapping = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Organization found with id: ${req.body.org_id}`
@@ -130,6 +156,7 @@ const updateUsrMapping = async (req, res) => {
   // usr_id validation
   if (req.body.usr_id) {
     if (!mongoose.isValidObjectId(req.body.usr_id)) {
+      isValid = false;
       res.status(400).send('Invalid Usr id');
     }
 
@@ -139,6 +166,7 @@ const updateUsrMapping = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Usr found with id: ${req.body.usr_id}`

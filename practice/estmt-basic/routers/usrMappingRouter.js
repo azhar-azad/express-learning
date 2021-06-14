@@ -23,7 +23,7 @@ usrMappingRouter.post('/', createUsrMapping);
  * @Description: Get all UsrMapping entities
  * @Method: GET
  * @Special: Can filter records using query parameters
- * @Allowed_Query_Params: cifNums orgIds usrIds
+ * @Allowed_Query_Params: cifNums, usrIds, orgNames
  * */
 usrMappingRouter.get('/', getUsrMappings);
 
