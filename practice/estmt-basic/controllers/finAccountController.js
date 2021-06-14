@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const FinAccount = require('../models/finAccount');
 const Organization = require('../models/organization');
 
+const { getOrgIdsByOrgNames } = require('../helpers/helpers');
+
 /**
  * @Dependency: Organization
  * */
@@ -14,6 +16,7 @@ const createFinAccount = async (req, res) => {
   // org_id validation
   if (req.body.org_id) {
     if (!mongoose.isValidObjectId(req.body.org_id)) {
+      isValid = false;
       res.status(400).send('Invalid Organization id');
     }
 
@@ -24,6 +27,7 @@ const createFinAccount = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Organization found with id: ${req.body.org_id}`
@@ -51,11 +55,27 @@ const createFinAccount = async (req, res) => {
   }
 };
 
-const getFinAccounts = (req, res) => {
+const getFinAccounts = async (req, res) => {
   console.log(':::::[getFinAccountsApi]:::::');
 
-  FinAccount.find()
-    // .populate('org_id') // send org_data with finAcct data
+  let filters = {};
+  if (req.query.acctNums)
+    filters.acct_number = req.query.acctNums.split(',');
+  if (req.query.types)
+    filters.type = req.query.types.split(',');
+  if (req.query.statuses)
+    filters.status = req.query.statuses.split(',');
+  if (req.query.orgNames)
+    filters.org_id = await getOrgIdsByOrgNames(req.query.orgNames.split(','));
+
+  let org = req.query.org;
+  if (org) {
+    if (org === 'no' || org === 'n' || org === 'NO' || org === 'N')
+      org = null;
+  }
+
+  FinAccount.find(filters)
+    .populate(org ? 'org_id' : null)
     .then(finAccts => res.status(200).json(finAccts))
     .catch(err => res.status(500).json({
       error: err,
@@ -85,6 +105,7 @@ const updateFinAccount = async (req, res) => {
   // org_id validation
   if (req.body.org_id) {
     if (!mongoose.isValidObjectId(req.body.org_id)) {
+      isValid = false;
       res.status(400).send('Invalid Organization id');
     }
 
@@ -95,6 +116,7 @@ const updateFinAccount = async (req, res) => {
         throw new Error();
       }
     } catch(err) {
+      isValid = false;
       res.status(400).json({
         success: false,
         message: `No Organization found with id: ${req.body.org_id}`

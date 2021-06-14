@@ -22,6 +22,8 @@ finAcctRouter.post('/', createFinAccount);
  * @URL: http://localhost:5000/api/{version}/finAccounts
  * @Description: Get all FinAccount entities
  * @Method: GET
+ * @Special: Can filter records using query parameters
+ * @Allowed_Query_Params: acctNums, types, statuses, orgNames, org(y/n)
  * */
 finAcctRouter.get('/', getFinAccounts);
 
