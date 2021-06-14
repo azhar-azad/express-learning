@@ -47,6 +47,7 @@ async function getOrgIdsByOrgNames(orgNames) {
     return orgIds;
   }
   else {
+    console.log('OrgIds not found');
     return null;
   }
 }
@@ -72,9 +73,22 @@ async function getAcctIdsByOrgNames(orgNames) {
   }
 }
 
+async function getAcctIdsByAcctNums(acctNums) {
+  let accts = await FinAccount.find({acct_number: acctNums});
+  if (accts) {
+    let acctIds = [];
+    accts.map(acct => acctIds.push(acct._id));
+    return acctIds;
+  }
+  else {
+    console.log('AcctIds not found');
+    return null;
+  }
+}
+
 module.exports = {
   errorHandler,
   authJwt, // Jwt
   getOrgIdsByOrgNames, // Organization
-  getAcctIdsByOrgNames // FinAccount
+  getAcctIdsByOrgNames, getAcctIdsByAcctNums // FinAccount
 };

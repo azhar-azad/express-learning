@@ -10,6 +10,7 @@ const finAcctRouter = require('./routers/finAccountRouter');
 const usrRouter = require('./routers/usrRouter');
 const usrMappingRouter = require('./routers/usrMappingRouter');
 const usrSessionRouter = require('./routers/usrSessionRouter');
+const usrFinAcctRouter = require('./routers/usrFinAccountRouter');
 const { authJwt, errorHandler } = require('./helpers/helpers');
 
 const app = express();
@@ -38,6 +39,7 @@ app.use(`${api}/finAccounts`, finAcctRouter);
 app.use(`${api}/usrs`, usrRouter);
 app.use(`${api}/usrMappings`, usrMappingRouter);
 app.use(`${api}/usrSessions`, usrSessionRouter);
+app.use(`${api}/usrFinAccounts`, usrFinAcctRouter);
 
 // mongodb connection
 mongoose.connect(conn_string, {
