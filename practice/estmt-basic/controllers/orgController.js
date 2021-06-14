@@ -26,7 +26,11 @@ const createOrganization = (req, res) => {
 const getOrganizations = (req, res) => {
   console.log(':::::[getOrganizationsApi]:::::');
 
-  Organization.find()
+  let filters = {};
+  if (req.query.orgNames)
+    filters.org_uniquename = req.query.orgNames.split(',');
+
+  Organization.find(filters)
     // .sort({'org_uniquename': -1}) // sort by column
     .then(orgs => res.status(200).json(orgs))
     .catch(err => res.status(500).json({

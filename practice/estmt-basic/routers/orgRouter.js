@@ -22,6 +22,9 @@ orgRouter.post('/', createOrganization);
  * @URL: http://localhost:5000/api/{version}/organizations
  * @Description: Get all Organization entities
  * @Method: GET
+ * @Special: Can filter records using query parameters
+ * @Allowed_Query_Params: orgNames
+ * Example: /organizations?orgNames=adcu,oscu
  * */
 orgRouter.get('/', getOrganizations);
 
