@@ -27,7 +27,11 @@ const createUsr = async (req, res) => {
 const getUsrs = (req, res) => {
   console.log(':::::[getUsrsApi]:::::');
 
-  Usr.find()
+  let filters = {};
+  if (req.query.fnames)
+    filters.usr_firstname = req.query.fnames.split(',');
+
+  Usr.find(filters)
     .sort({'usr_firstname': 1})
     .then(usrs => res.status(200).json(usrs))
     .catch(err => res.status(500).json({

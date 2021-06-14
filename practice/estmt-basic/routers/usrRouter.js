@@ -22,6 +22,8 @@ usrRouter.post('/', createUsr);
  * @URL: http://localhost:5000/api/{version}/usrs
  * @Description: Get all Usr entities
  * @Method: GET
+ * @Special: Can filter records using query parameters
+ * @Allowed_Query_Params: fnames
  * */
 usrRouter.get('/', getUsrs);
 
