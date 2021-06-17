@@ -11,6 +11,7 @@ const usrRouter = require('./routers/usrRouter');
 const usrMappingRouter = require('./routers/usrMappingRouter');
 const usrSessionRouter = require('./routers/usrSessionRouter');
 const usrFinAcctRouter = require('./routers/usrFinAccountRouter');
+const archFileRouter = require('./routers/archFileRouter');
 const { authJwt, errorHandler } = require('./helpers/helpers');
 
 const app = express();
@@ -40,6 +41,7 @@ app.use(`${api}/usrs`, usrRouter);
 app.use(`${api}/usrMappings`, usrMappingRouter);
 app.use(`${api}/usrSessions`, usrSessionRouter);
 app.use(`${api}/usrFinAccounts`, usrFinAcctRouter);
+app.use(`${api}/archFiles`, archFileRouter);
 
 // mongodb connection
 mongoose.connect(conn_string, {

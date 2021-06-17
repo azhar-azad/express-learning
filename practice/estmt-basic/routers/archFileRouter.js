@@ -1,52 +1,49 @@
 /**
- * @Path: /organizations
+ * @Path: /archFiles
  * @Description:
  * */
-const orgRouter = require('express').Router();
+const archFileRouter = require('express').Router();
 const {
-  createOrganization,
-  getOrganizations,
-  getOrganization,
-  updateOrganization,
-  deleteOrganization
-} = require('../controllers/orgController');
+  createArchFile,
+  getArchFiles,
+  getArchFile,
+  updateArchFile,
+  deleteArchFile
+} = require('../controllers/archFileController');
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations
- * @Description: Create a new Organization entity
+ * @URL: http://localhost:5000/api/{version}/archFiles
+ * @Description: Create a new ArchFile entity
  * @Method: POST
  * */
-orgRouter.post('/', createOrganization);
+archFileRouter.post('/', createArchFile);
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations
- * @Description: Get all Organization entities
- * @Method: GET
- * @Special: Can filter records using query parameters
- * @Allowed_Query_Params: orgNames
- * Example: /organizations?orgNames=adcu,oscu
- * */
-orgRouter.get('/', getOrganizations);
-
-/**
- * @URL: http://localhost:5000/api/{version}/organizations/{orgId}
- * @Description: Get a Organization entity by id
+ * @URL: http://localhost:5000/api/{version}/archFiles
+ * @Description: Get all ArchFile entities
  * @Method: GET
  * */
-orgRouter.get('/:id', getOrganization);
+archFileRouter.get('/', getArchFiles);
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations/{orgId}
- * @Description: Update a Organization entity by id
+ * @URL: http://localhost:5000/api/{version}/archFiles/{orgId}
+ * @Description: Get a ArchFile entity by id
+ * @Method: GET
+ * */
+archFileRouter.get('/:id', getArchFile);
+
+/**
+ * @URL: http://localhost:5000/api/{version}/archFiles/{orgId}
+ * @Description: Update a ArchFile entity by id
  * @Method: PUT
  * */
-orgRouter.put('/:id', updateOrganization);
+archFileRouter.put('/:id', updateArchFile);
 
 /**
- * @URL: http://localhost:5000/api/{version}/organizations/{orgId}
- * @Description: Delete a Organization entity by id
+ * @URL: http://localhost:5000/api/{version}/archFiles/{orgId}
+ * @Description: Delete a ArchFile entity by id
  * @Method: DELETE
  * */
-orgRouter.delete('/:id', deleteOrganization);
+archFileRouter.delete('/:id', deleteArchFile);
 
-module.exports = orgRouter;
+module.exports = archFileRouter;

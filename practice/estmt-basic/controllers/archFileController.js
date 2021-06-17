@@ -1,100 +1,122 @@
 const mongoose = require('mongoose');
-const Organization = require('../models/organization');
+const ArchFile = require('../models/archFile');
 
 /**
  * @Dependency: No dependency
  * */
 
-const createOrganization = (req, res) => {
-  console.log(':::::[createOrganization]:::::');
+const createArchFile = (req, res) => {
+  console.log(':::::[createArchFileApi]:::::');
 
-  const orgData = new Organization({
-    org_uniquename: req.body.org_uniquename,
-    org_displayname: req.body.org_displayname,
-    schema_name: req.body.schema_name
-  });
-
-  orgData.save()
-    .then(org => res.status(201).json(org))
-    .catch(err => res.status(500).json({
-      error: err,
+  let fileName = req.body.file_name;
+  if (fileName.indexOf('.') === -1) {
+    res.status(400).json({
       success: false,
-      message: `Failed to create Organization`
-    }));
-};
-
-const getOrganizations = (req, res) => {
-  console.log(':::::[getOrganizationsApi]:::::');
-
-  let filters = {};
-  if (req.query.orgNames)
-    filters.org_uniquename = req.query.orgNames.split(',');
-
-  Organization.find(filters)
-    // .sort({'org_uniquename': -1}) // sort by column
-    .then(orgs => res.status(200).json(orgs))
-    .catch(err => res.status(500).json({
-      error: err,
-      success: false,
-      message: `Failed to fetch Organization data`
-    }));
-};
-
-const getOrganization = (req, res) => {
-  console.log(':::::[getOrganizationApi]:::::');
-
-  Organization.findById(req.params.id)
-    .then(org => res.status(200).json(org))
-    .catch(err => res.status(400).json({
-      error: err,
-      success: false,
-      message: `Failed to fetch Organization with id: ${req.params.id}`
-    }));
-};
-
-const updateOrganization = (req, res) => {
-  console.log(':::::[updateOrganizationApi]:::::');
-
-  if (!mongoose.isValidObjectId(req.params.id)) { // validating id
-    res.status(400).send('Invalid Organization id');
+      message: `File name without extension is invalid`
+    });
+    return;
   }
 
-  const updatedOrgData = {
-    org_uniquename: req.body.org_uniquename,
-    org_displayname: req.body.org_displayname,
-    schema_name: req.body.schema_name
-  };
+  let fileType = req.body.file_type;
+  if (!fileType) {
+    fileType = fileName.substring(fileName.indexOf('.')+1, fileName.length);
+  }
 
-  Organization.findByIdAndUpdate(req.params.id, updatedOrgData, {new: true})
-    .then(updatedOrg => res.json(updatedOrg))
-    .catch(err => res.status(400).json({
+  const archFileData = new ArchFile({
+    file_name: fileName,
+    file_type: fileType
+  });
+
+  archFileData.save()
+    .then(archFile => res.status(201).json(archFile))
+    .catch(err => res.status(500).json({
       error: err,
       success: false,
-      message: `Failed to update Organization with id: ${req.params.id}`
+      message: `Failed to create ArchFile`
     }));
 };
 
-const deleteOrganization = (req, res) => {
-  console.log(':::::[deleteOrganizationApi]:::::');
+const getArchFiles = (req, res) => {
+  console.log(':::::[getArchFilesApi]:::::');
 
-  Organization.findByIdAndRemove(req.params.id)
-    .then(deletedOrg => {
-      if (deletedOrg)
-        return res.status(200).json({success: true, message: 'Organization is deleted'})
+  ArchFile.find()
+    .then(archFiles => res.status(200).json(archFiles))
+    .catch(err => res.status(500).json({
+      error: err,
+      success: false,
+      message: `Failed to fetch ArchFile data`
+    }));
+};
+
+const getArchFile = (req, res) => {
+  console.log(':::::[getArchFileApi]:::::');
+
+  ArchFile.findById(req.params.id)
+    .then(archFile => res.status(200).json(archFile))
+    .catch(err => res.status(400).json({
+      error: err,
+      success: false,
+      message: `Failed to fetch ArchFile with id: ${req.params.id}`
+    }));
+};
+
+const updateArchFile = (req, res) => {
+  console.log(':::::[updateArchFileApi]:::::');
+
+  if (!mongoose.isValidObjectId(req.params.id)) { // validating id
+    res.status(400).send('Invalid ArchFile id');
+    return;
+  }
+
+  let fileName = req.body.file_name;
+  if (fileName.indexOf('.') === -1) {
+    res.status(400).json({
+      success: false,
+      message: `File name without extension is invalid`
+    });
+    return;
+  }
+
+  let fileType = req.body.file_type;
+  if (!fileType) {
+    fileType = fileName.substring(fileName.indexOf('.')+1, fileName.length);
+  }
+
+  const updatedArchFileData = {
+    file_name: fileName,
+    file_type: fileType
+  };
+
+  ArchFile.findByIdAndUpdate(req.params.id, updatedArchFileData, {new: true})
+    .then(updatedArchFile => res.json(updatedArchFile))
+    .catch(err => res.status(400).json({
+      error: err,
+      success: false,
+      message: `Failed to update ArchFile with id: ${req.params.id}`
+    }));
+};
+
+const deleteArchFile = (req, res) => {
+  console.log(':::::[deleteArchFileApi]:::::');
+
+  ArchFile.findByIdAndRemove(req.params.id)
+    .then(deletedArchFile => {
+      if (deletedArchFile)
+        return res.status(200).json({success: true, message: 'ArchFile is deleted'})
       else
-        return res.status(404).json({success: false, message: 'Organization not found'})
+        return res.status(404).json({success: false, message: 'ArchFile not found'})
     })
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to deleted Organization with id: ${req.params.id}`
+      message: `Failed to deleted ArchFile with id: ${req.params.id}`
     }));
 };
 
 module.exports = {
-  createOrganization,
-  getOrganizations,
-  getOrganization,
-  updateOrganization,
-  deleteOrganization
+  createArchFile,
+  getArchFiles,
+  getArchFile,
+  updateArchFile,
+  deleteArchFile
 };
