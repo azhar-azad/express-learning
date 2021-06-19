@@ -14,6 +14,8 @@ const usrFinAcctRouter = require('./routers/usrFinAccountRouter');
 const archFileRouter = require('./routers/archFileRouter');
 const estmtDocRouter = require('./routers/estmtDocRouter');
 const estmtFileRouter = require('./routers/estmtFileRouter');
+const enoticeRouter = require('./routers/enoticeRouter');
+const etaxRouter = require('./routers/etaxRouter');
 const { authJwt, errorHandler } = require('./helpers/helpers');
 
 const app = express();
@@ -46,6 +48,8 @@ app.use(`${api}/usrFinAccounts`, usrFinAcctRouter);
 app.use(`${api}/archFiles`, archFileRouter);
 app.use(`${api}/estmtDocs`, estmtDocRouter);
 app.use(`${api}/estmtFiles`, estmtFileRouter);
+app.use(`${api}/enotices`, enoticeRouter);
+app.use(`${api}/etaxes`, etaxRouter);
 
 // mongodb connection
 mongoose.connect(conn_string, {
