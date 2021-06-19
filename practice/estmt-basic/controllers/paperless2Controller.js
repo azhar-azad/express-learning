@@ -81,7 +81,8 @@ const getPaperless = (req, res) => {
     .populate({
       path: 'acct_id', populate: 'org_id'
     })
-    .then(paperless => res.status(200).json(paperless))
+    .populate('arch_file_id')
+    .then(etax => res.status(200).json(etax))
     .catch(err => res.status(400).json({
       error: err,
       success: false,
@@ -146,6 +147,10 @@ const deletePaperless = (req, res) => {
       message: `Failed to deleted Paperless with id: ${req.params.id}`
     }));
 };
+
+const isDate = (date) => {
+  return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
+}
 
 module.exports = {
   createPaperless,

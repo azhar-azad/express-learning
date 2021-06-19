@@ -2,7 +2,7 @@
  * @Path: /paperlesses
  * @Description:
  * */
-const paperlessRouter = require('express').Router();
+const paperless = require('express').Router();
 const {
   createPaperless,
   getPaperlesses,
@@ -16,7 +16,7 @@ const {
  * @Description: Create a new Paperless entity
  * @Method: POST
  * */
-paperlessRouter.post('/', createPaperless);
+paperless.post('/', createPaperless);
 
 /**
  * @URL: http://localhost:5000/api/{version}/paperlesses
@@ -25,27 +25,27 @@ paperlessRouter.post('/', createPaperless);
  * @Special: Can filter records using query parameters
  * @Allowed_Query_Params: old, new, stmtTypes, acct(y/n)
  * */
-paperlessRouter.get('/', getPaperlesses);
+paperless.get('/', getPaperlesses);
 
 /**
  * @URL: http://localhost:5000/api/{version}/paperlesses/{pId}
  * @Description: Get a Paperless entity by id
  * @Method: GET
  * */
-paperlessRouter.get('/:id', getPaperless);
+paperless.get('/:id', getPaperless);
 
 /**
  * @URL: http://localhost:5000/api/{version}/paperlesses/{pId}
  * @Description: Update a Paperless entity by id
  * @Method: PUT
  * */
-paperlessRouter.put('/:id', updatePaperless);
+paperless.put('/:id', updatePaperless);
 
 /**
  * @URL: http://localhost:5000/api/{version}/paperlesses/{pId}
  * @Description: Delete a Paperless entity by id
  * @Method: DELETE
  * */
-paperlessRouter.delete('/:id', deletePaperless);
+paperless.delete('/:id', deletePaperless);
 
-module.exports = paperlessRouter;
+module.exports = paperless;
