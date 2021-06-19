@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-const Paperless = require('../models/paperless');
+const Paperless2 = require('../models/paperless2');
 const FinAccount = require('../models/finAccount');
 
 /**
  * @Dependency: FinAccount
  * */
 
-const createPaperless = async (req, res) => {
-  console.log(':::::[createPaperlessApi]:::::');
+const createPaperless2 = async (req, res) => {
+  console.log(':::::[createPaperless2Api]:::::');
 
   // fin_account validation
   if (req.body.acct_id) {
@@ -31,24 +31,24 @@ const createPaperless = async (req, res) => {
   }
   // fin_account validation - end
 
-  const paperlessData = new Paperless({
+  const paperless2Data = new Paperless2({
     p_old_status: req.body.p_old_status,
-    p_new_status: req.body.p_new_status,
+    p_latest_status: req.body.p_latest_status,
     stmt_type: req.body.stmt_type,
     acct_id: req.body.acct_id
   });
 
-  paperlessData.save()
-    .then(paperless => res.status(201).json(paperless))
+  paperless2Data.save()
+    .then(paperless2 => res.status(201).json(paperless2))
     .catch(err => res.status(500).json({
       error: err,
       success: false,
-      message: `Failed to create Paperless`
+      message: `Failed to create Paperless2`
     }));
 };
 
-const getPaperlesses = async (req, res) => {
-  console.log(':::::[getPaperlessesApi]:::::');
+const getPaperless2s = async (req, res) => {
+  console.log(':::::[getPaperless2sApi]:::::');
 
   let filters = {};
   if (req.query.stmtTypes)
@@ -56,7 +56,7 @@ const getPaperlesses = async (req, res) => {
   if (req.query.old)
     filters.p_old_status = req.query.old.split(',');
   if (req.query.new)
-    filters.p_new_status = req.query.new.split(',');
+    filters.p_latest_status = req.query.new.split(',');
 
   let acct = req.query.acct;
   if (acct) {
@@ -64,34 +64,33 @@ const getPaperlesses = async (req, res) => {
       acct = null;
   }
 
-  Paperless.find(filters)
+  Paperless2.find(filters)
     .populate(acct ? 'acct_id' : null)
-    .then(paperlesses => res.status(200).json(paperlesses))
+    .then(paperless2s => res.status(200).json(paperless2s))
     .catch(err => res.status(500).json({
       error: err,
       success: false,
-      message: `Failed to fetch Paperless data`
+      message: `Failed to fetch Paperless2 data`
     }));
 };
 
-const getPaperless = (req, res) => {
-  console.log(':::::[getPaperlessApi]:::::');
+const getPaperless2 = (req, res) => {
+  console.log(':::::[getPaperless2Api]:::::');
 
-  Paperless.findById(req.params.id)
+  Paperless2.findById(req.params.id)
     .populate({
       path: 'acct_id', populate: 'org_id'
     })
-    .populate('arch_file_id')
-    .then(etax => res.status(200).json(etax))
+    .then(paperless2 => res.status(200).json(paperless2))
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to fetch Paperless with id: ${req.params.id}`
+      message: `Failed to fetch Paperless2 with id: ${req.params.id}`
     }));
 };
 
-const updatePaperless = async (req, res) => {
-  console.log(':::::[updatePaperlessApi]:::::');
+const updatePaperless2 = async (req, res) => {
+  console.log(':::::[updatePaperless2Api]:::::');
 
   // fin_account validation
   if (req.body.acct_id) {
@@ -117,45 +116,41 @@ const updatePaperless = async (req, res) => {
 
   const updatedPaperlessData = {
     p_old_status: req.body.p_old_status,
-    p_new_status: req.body.p_new_status,
+    p_latest_status: req.body.p_latest_status,
     stmt_type: req.body.stmt_type,
     acct_id: req.body.acct_id
   };
 
-  Paperless.findByIdAndUpdate(req.params.id, updatedPaperlessData, {new: true})
-    .then(updatedPaperless => res.json(updatedPaperless))
+  Paperless2.findByIdAndUpdate(req.params.id, updatedPaperlessData, {new: true})
+    .then(updatedPaperless2 => res.json(updatedPaperless2))
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to update Paperless with id: ${req.params.id}`
+      message: `Failed to update Paperless2 with id: ${req.params.id}`
     }));
 };
 
-const deletePaperless = (req, res) => {
-  console.log(':::::[deletePaperlessApi]:::::');
+const deletePaperless2 = (req, res) => {
+  console.log(':::::[deletePaperless2Api]:::::');
 
-  Paperless.findByIdAndRemove(req.params.id)
-    .then(deletedPaperless => {
-      if (deletedPaperless)
-        return res.status(200).json({success: true, message: 'Paperless is deleted'})
+  Paperless2.findByIdAndRemove(req.params.id)
+    .then(deletedPaperless2 => {
+      if (deletedPaperless2)
+        return res.status(200).json({success: true, message: 'Paperless2 is deleted'})
       else
-        return res.status(404).json({success: false, message: 'Paperless not found'})
+        return res.status(404).json({success: false, message: 'Paperless2 not found'})
     })
     .catch(err => res.status(400).json({
       error: err,
       success: false,
-      message: `Failed to deleted Paperless with id: ${req.params.id}`
+      message: `Failed to deleted Paperless2 with id: ${req.params.id}`
     }));
 };
 
-const isDate = (date) => {
-  return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
-}
-
 module.exports = {
-  createPaperless,
-  getPaperlesses,
-  getPaperless,
-  updatePaperless,
-  deletePaperless
+  createPaperless2,
+  getPaperless2s,
+  getPaperless2,
+  updatePaperless2,
+  deletePaperless2
 };

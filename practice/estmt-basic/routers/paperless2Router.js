@@ -1,51 +1,51 @@
 /**
- * @Path: /paperlesses
+ * @Path: /paperless2
  * @Description:
  * */
-const paperless = require('express').Router();
+const paperless2Router = require('express').Router();
 const {
-  createPaperless,
-  getPaperlesses,
-  getPaperless,
-  updatePaperless,
-  deletePaperless
-} = require('../controllers/paperlessController');
+  createPaperless2,
+  getPaperless2s,
+  getPaperless2,
+  updatePaperless2,
+  deletePaperless2
+} = require('../controllers/paperless2Controller');
 
 /**
- * @URL: http://localhost:5000/api/{version}/paperlesses
- * @Description: Create a new Paperless entity
+ * @URL: http://localhost:5000/api/{version}/paperless2
+ * @Description: Create a new Paperless2 entity
  * @Method: POST
  * */
-paperless.post('/', createPaperless);
+paperless2Router.post('/', createPaperless2);
 
 /**
- * @URL: http://localhost:5000/api/{version}/paperlesses
- * @Description: Get all Paperless entities
+ * @URL: http://localhost:5000/api/{version}/paperless2
+ * @Description: Get all Paperless2 entities
  * @Method: GET
  * @Special: Can filter records using query parameters
  * @Allowed_Query_Params: old, new, stmtTypes, acct(y/n)
  * */
-paperless.get('/', getPaperlesses);
+paperless2Router.get('/', getPaperless2s);
 
 /**
- * @URL: http://localhost:5000/api/{version}/paperlesses/{pId}
- * @Description: Get a Paperless entity by id
+ * @URL: http://localhost:5000/api/{version}/paperless2/{paperless2Id}
+ * @Description: Get a Paperless2 entity by id
  * @Method: GET
  * */
-paperless.get('/:id', getPaperless);
+paperless2Router.get('/:id', getPaperless2);
 
 /**
- * @URL: http://localhost:5000/api/{version}/paperlesses/{pId}
- * @Description: Update a Paperless entity by id
+ * @URL: http://localhost:5000/api/{version}/paperless2/{paperless2Id}
+ * @Description: Update a Paperless2 entity by id
  * @Method: PUT
  * */
-paperless.put('/:id', updatePaperless);
+paperless2Router.put('/:id', updatePaperless2);
 
 /**
- * @URL: http://localhost:5000/api/{version}/paperlesses/{pId}
- * @Description: Delete a Paperless entity by id
+ * @URL: http://localhost:5000/api/{version}/paperless2/{paperless2Id}
+ * @Description: Delete a Paperless2 entity by id
  * @Method: DELETE
  * */
-paperless.delete('/:id', deletePaperless);
+paperless2Router.delete('/:id', deletePaperless2);
 
-module.exports = paperless;
+module.exports = paperless2Router;

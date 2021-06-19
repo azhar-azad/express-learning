@@ -1,17 +1,13 @@
 const mongoose = require('mongoose');
 
-const paperlessSchema = mongoose.Schema({
+const paperless2Schema = mongoose.Schema({
   p_old_status: {
     type: String,
     required: true
   },
-  p_new_status: {
+  p_latest_status: {
     type: String,
     required: true
-  },
-  p_modified_date: {
-    type: Date,
-    default: new Date
   },
   stmt_type: {
     type: String
@@ -23,13 +19,13 @@ const paperlessSchema = mongoose.Schema({
   }
 });
 
-paperlessSchema.virtual('p_id').get(function () {
+paperless2Schema.virtual('paperless2_id').get(function () {
   return this._id.toHexString();
 });
-paperlessSchema.set('toJSON', {
+paperless2Schema.set('toJSON', {
   virtuals: true
 });
 
-const Paperless = mongoose.model('Paperless', paperlessSchema);
+const Paperless2 = mongoose.model('Paperless2', paperless2Schema);
 
-module.exports = Paperless;
+module.exports = Paperless2;

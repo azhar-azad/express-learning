@@ -17,6 +17,7 @@ const estmtFileRouter = require('./routers/estmtFileRouter');
 const enoticeRouter = require('./routers/enoticeRouter');
 const etaxRouter = require('./routers/etaxRouter');
 const paperlessRouter = require('./routers/paperlessRouter');
+const paperless2Router = require('./routers/paperless2Router');
 const { authJwt, errorHandler } = require('./helpers/helpers');
 
 const app = express();
@@ -52,6 +53,7 @@ app.use(`${api}/estmtFiles`, estmtFileRouter);
 app.use(`${api}/enotices`, enoticeRouter);
 app.use(`${api}/etaxes`, etaxRouter);
 app.use(`${api}/paperlesses`, paperlessRouter);
+app.use(`${api}/paperless2`, paperless2Router);
 
 // mongodb connection
 mongoose.connect(conn_string, {
