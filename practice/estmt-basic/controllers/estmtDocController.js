@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const EstmtDoc = require('../models/estmtDoc');
 const FinAccount = require('../models/finAccount');
 
-const { getOrgIdsByOrgNames } = require('../helpers/helpers');
-
 /**
  * @Dependency: FinAccount
  * */
@@ -20,7 +18,6 @@ const createEstmtDoc = async (req, res) => {
 
     try {
       const acct = await FinAccount.findById(req.body.acct_id);
-      console.log('acct ==> ' + acct);
       if (!acct) {
         throw new Error();
       }
