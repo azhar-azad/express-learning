@@ -19,6 +19,7 @@ const etaxRouter = require('./routers/etaxRouter');
 const paperlessRouter = require('./routers/paperlessRouter');
 const paperless2Router = require('./routers/paperless2Router');
 const notificationPrefRouter = require('./routers/notificationPrefRouter');
+const notificationHistoryRouter = require('./routers/notificationHistoryRouter');
 const { authJwt, errorHandler } = require('./helpers/helpers');
 
 const app = express();
@@ -56,6 +57,7 @@ app.use(`${api}/etaxes`, etaxRouter);
 app.use(`${api}/paperlesses`, paperlessRouter);
 app.use(`${api}/paperless2`, paperless2Router);
 app.use(`${api}/notificationPreferences`, notificationPrefRouter);
+app.use(`${api}/notificationHistories`, notificationHistoryRouter);
 
 // mongodb connection
 mongoose.connect(conn_string, {
