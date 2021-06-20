@@ -5,6 +5,7 @@
 js-mastery-node-express-api/node_modules/
 web-dev-simpli-express-mongo-api/node_modules/
 udemy/e-shop/backend/node_modules/
+udemy/devcamper-api/node_modules/
 practice/empl-mgmt-api/node_modules/
 practice/book-publisher-api/node_modules/
 practice/social-media-api/node_modules/
@@ -26,6 +27,7 @@ practice/crud-app-2/
 # env file
 web-dev-simpli-express-mongo-api/.env
 practice/pl-api-with-rate-limiter/.env
+udemy/devcamper-api/config/config.env
 
 # ignored misc folders
 udemy/e-shop/12.1 initial-eshop-backend/
