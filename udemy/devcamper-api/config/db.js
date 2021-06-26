@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-// const conn_string = 'mongodb://localhost/devcamper_db';
+const conn_string = 'mongodb://localhost/devcamper_db';
 
 const connectDB = async () => {
-  const conn = await mongoose.connect(process.env.MONGO_URI, {
+  const conn = await mongoose.connect(conn_string, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
