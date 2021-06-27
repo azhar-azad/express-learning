@@ -13,6 +13,7 @@ connectDB();
 
 // Route files
 const bootcampsRouter = require('./routes/bootcamps.route');
+const coursesRouter = require('./routes/courses.route');
 
 const app = express();
 
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use(`/api/v1/bootcamps`, bootcampsRouter);
+app.use(`/api/v1/courses`, coursesRouter);
 
 app.use(errorHandler); // as this handles error in controller methods, it needs to be added after the router call
 
