@@ -27,7 +27,7 @@ exports.getBootcamps = asyncHandler( async (req, res, next) => {
   queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
 
   // Finding resource
-  query = Bootcamp.find(JSON.parse(queryStr));
+  query = Bootcamp.find(JSON.parse(queryStr)).populate('courses'); // virtual field populated
 
   // Select Fields
   if (req.query.select) {
@@ -149,11 +149,15 @@ exports.updateBootcamp = asyncHandler( async (req, res, next) => {
  * @access        Private
 */
 exports.deleteBootcamp = asyncHandler( async (req, res, next) => {
-  const bootcamp = await Bootcamp.findByIdAndRemove(req.params.id);
+  // findByIdAndRemove method will not trigger mongoose middleware.
+  // const bootcamp = await Bootcamp.findByIdAndRemove(req.params.id);
+  const bootcamp = await Bootcamp.findById(req.params.id);
   
   if (!bootcamp) {
     new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
   }
+
+  bootcamp.remove(); // remove method will trigger mongoose middleware
 
   res.status(200).json({
     success: true,
