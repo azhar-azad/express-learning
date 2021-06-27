@@ -15,11 +15,10 @@ exports.getBootcamps = asyncHandler( async (req, res, next) => {
   // Copy req.query
   const reqQuery = { ...req.query };
 
-  // Fields to exclude
-  const removeFields = ['select', 'sort'];
-
+  // Fields to exclude (does not search for those while filtering, though they are present in req.query)
+  const removeParams = ['select', 'sort', 'page', 'limit'];
   // Loop over removeFields and delete them from request query
-  removeFields.forEach(param => delete reqQuery[param]);
+  removeParams.forEach(param => delete reqQuery[param]);
 
   // Create query string
   let queryStr = JSON.stringify(reqQuery);
@@ -45,12 +44,41 @@ exports.getBootcamps = asyncHandler( async (req, res, next) => {
     query = query.sort('-createdAt');
   }
 
+  // Pagination
+  const page = parseInt(req.query.page, 10) || 1; // to show certain page. If limit is 2 then, first 2 items make page 1, second 2 will make page 2 and so on
+  const limit = parseInt(req.query.limit, 10) || 25; // 25 as 25 results will be returns as defualt
+  const startIndex = (page - 1) * limit; 
+  const endIndex = page * limit; 
+  const total = await Bootcamp.countDocuments(); // total is the all the bootcamps in the db
+
+  query = query.skip(startIndex).limit(limit);
+
   // Executing query
   const bootcamps = await query;
+
+  // Pagination result
+  const pagination = {};
+
+  // Only show next page number if available
+  if (endIndex < total) {
+    pagination.next = {
+      page: page + 1,
+      limit
+    }
+  }
+
+  // Only show previous page number if available
+  if (startIndex > 0) {
+    pagination.prev = {
+      page: page - 1,
+      limit
+    }
+  }
 
   res.status(200).json({
     success: true,
     count: bootcamps.length,
+    pagination,
     data: bootcamps
   });
 });
