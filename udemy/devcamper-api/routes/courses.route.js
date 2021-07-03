@@ -13,8 +13,9 @@ const advancedResults = require('../middlewares/advancedResults');
 // mergeParams is set to true in order to find the params from calling router
 const router = require('express').Router({ mergeParams: true }); 
 
-// This is to protect routes, user has to be logged in to access those routes.
-const { protect } = require('../middlewares/auth.middleware');
+// protect: to protect routes, user has to be logged in to access those routes.
+// authorize: to authorize certain routes to certain user roles. 
+const { protect, authorize } = require('../middlewares/auth.middleware');
 
 router.route('/')
   .get(
@@ -24,11 +25,11 @@ router.route('/')
     }), 
     getCourses
   )
-  .post(protect, createCourse);
+  .post(protect, authorize('publisher', 'admin'), createCourse);
 
 router.route('/:id')
   .get(getCourse)
-  .put(protect, updateCourse)
-  .delete(protect, deleteCourse);
+  .put(protect, authorize('publisher', 'admin'), updateCourse)
+  .delete(protect, authorize('publisher', 'admin'), deleteCourse);
 
 module.exports = router;
