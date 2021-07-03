@@ -77,3 +77,19 @@ const sendTokenResponse = (user, statusCode, res) => {
       token
     })
 };
+
+/** 
+ * @description   Get current logged in user
+ * @method        GET 
+ * @route         /api/v1/auth/me
+ * @access        Private
+*/
+exports.getMe = asyncHandler(async (req, res, next) => {
+  // As this route will be protected, we will have access to req.user object
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    data: user
+  });
+});
