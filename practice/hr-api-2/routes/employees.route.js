@@ -10,7 +10,8 @@ const {
 const Employee = require('../models/Employee');
 const advancedResults = require('../middlewares/advancedResults.mw');
 
-const router = require('express').Router();
+// mergeParams is set to true in order to find Department params
+const router = require('express').Router({ mergeParams: true });
 
 // /api/v1/employees
 router

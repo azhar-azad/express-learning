@@ -13,6 +13,7 @@ connectDB();
 
 // Route files
 const employeeRouter = require('./routes/employees.route');
+const departmentRouter = require('./routes/departments.route');
 
 const app = express();
 
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === 'dev') {
 
 // Mount routers
 app.use('/api/v1/employees', employeeRouter);
+app.use('/api/v1/departments', departmentRouter);
 
 // Handle error by custom error handlers.
 // It needs to be added after mounting the routers.

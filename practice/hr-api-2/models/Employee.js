@@ -60,6 +60,30 @@ const EmployeeSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
+// static method to set manager in Department
+EmployeeSchema.statics.setManagerInDepartment = async function(departmentId) {
+  if (this.isManager) {
+    console.log('[Employee.js] setManagerInDepartment statics');
+    try {
+      await this.model('Department').findByIdAndUpdate(departmentId, {
+        manager: this._id
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
+// Call setManagerInDepartment after save
+EmployeeSchema.post('save', function() {
+  this.constructor.setManagerInDepartment(this.department);
+});
+
+// Call setManagerInDepartment before remove
+EmployeeSchema.pre('remove', function() {
+  this.constructor.setManagerInDepartment(this.department);
+});
+
 // Create Employee slug from email
 EmployeeSchema.pre('save', function(next) {
   let mark = this.email.indexOf('@');

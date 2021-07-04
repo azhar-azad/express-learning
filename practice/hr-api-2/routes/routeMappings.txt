@@ -1,0 +1,48 @@
+1. Regions
+POST      /regions
+GET       /regions
+GET       /regions/:id
+PUT       /regions/:id
+DELETE    /regions/:id
+
+2. Countries
+POST      /regions/:id/countries
+GET       /regions/:id/countries
+GET       /regions/:id/countries/:id
+PUT       /regions/:id/countries/:id
+DELETE    /regions/:id/countries/:id
+
+3. Locations
+POST      /regions/:id/countries/:id/locations
+GET       /regions/:id/countries/:id/locations
+GET       /regions/:id/countries/:id/locations/:id
+PUT       /regions/:id/countries/:id/locations/:id
+DELETE    /regions/:id/countries/:id/locations/:id
+
+4. Jobs
+POST      /jobs
+GET       /jobs
+GET       /jobs/:id
+PUT       /jobs/:id
+DELETE    /jobs/:id
+
+5. Departments
+POST      /departments
+GET       /departments
+GET       /departments/:id
+PUT       /departments/:id
+DELETE    /departments/:id
+
+6. Employees
+POST      /departments/:id/employees
+GET       /departments/:id/employees
+GET       /departments/:id/employees/:id
+PUT       /departments/:id/employees/:id
+DELETE    /departments/:id/employees/:id
+
+7. JobHistories
+POST      /jobHistories
+GET       /jobHistories [add support to get by employees, departments and jobs]
+GET       /jobHistories/:id
+PUT       /jobHistories/:id
+DELETE    /jobHistories/:id
