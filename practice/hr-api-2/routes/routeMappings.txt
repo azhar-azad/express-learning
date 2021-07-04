@@ -27,18 +27,19 @@ PUT       /jobs/:id
 DELETE    /jobs/:id
 
 5. Departments
-POST      /departments
-GET       /departments
-GET       /departments/:id
-PUT       /departments/:id
-DELETE    /departments/:id
+POST      /departments [Create]
+GET       /departments [Get all]
+GET       /departments/:id [Get single]
+PUT       /departments/:id [Update]
+DELETE    /departments/:id [Delete]
 
 6. Employees
-POST      /departments/:id/employees
-GET       /departments/:id/employees
-GET       /departments/:id/employees/:id
-PUT       /departments/:id/employees/:id
-DELETE    /departments/:id/employees/:id
+POST      /departments/:id/employees [Create]
+GET       /departments/:id/employees [Get all for department]
+GET       /employees [Get all]
+GET       /employees/:id [Get single]
+PUT       /employees/:id [Update]
+DELETE    /employees/:id [Delete]
 
 7. JobHistories
 POST      /jobHistories

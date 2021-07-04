@@ -25,7 +25,7 @@
     "email": "tomhanks@gmail.com",
     "phoneNumber": "408-2222222",
     "salary": "100000",
-    "isManager": false,
+    "isManager": true,
     "job": "5d725a037b292f5f8ceff787",
     "department": "5c8a1d5b0190b214360dc031"
   }

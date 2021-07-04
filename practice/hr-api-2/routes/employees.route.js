@@ -16,7 +16,7 @@ const router = require('express').Router({ mergeParams: true });
 // /api/v1/employees
 router
   .route('/')
-  .get(advancedResults(Employee), getEmployees)
+  .get(advancedResults(Employee, 'department'), getEmployees)
   .post(createEmployee);
 
   // /api/v1/employees/:id
