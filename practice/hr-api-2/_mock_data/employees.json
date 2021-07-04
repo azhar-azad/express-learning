@@ -1,0 +1,32 @@
+[
+  {
+    "firstName": "Romin",
+    "lastName": "Irani",
+    "email": "romin.k.irani@gmail.com",
+    "phoneNumber": "408-1234567",
+    "salary": "70000",
+    "isManager": false,
+    "job": "5d7a514b5d2c12c7449be045",
+    "department": "5d713995b721c3bb38c1f5d0"
+  },
+  {
+    "firstName": "Neil",
+    "lastName": "Irani",
+    "email": "neilrirani@gmail.com",
+    "phoneNumber": "408-1111111",
+    "salary": "50000",
+    "isManager": false,
+    "job": "5d713a66ec8f2b88b8f830b8",
+    "department": "5d7a514b5d2c12c7449be046"
+  },
+  {
+    "firstName": "Tom",
+    "lastName": "Hanks",
+    "email": "tomhanks@gmail.com",
+    "phoneNumber": "408-2222222",
+    "salary": "100000",
+    "isManager": false,
+    "job": "5d725a037b292f5f8ceff787",
+    "department": "5c8a1d5b0190b214360dc031"
+  }
+]

@@ -44,7 +44,7 @@ UserSchema.pre('save', async function(next) {
 });
 
 // Sign JWT and return
-// It is a mongoose method that actually being called on the 'user' data, not on the model
+// It is a mongoose method that actually being called on the 'user' data, not on the User model
 // So, this._id refers to the user._id
 // Also, this method can be called form controller
 UserSchema.methods.getSignedJwtToken = function() {
