@@ -30,7 +30,7 @@ router.route('/:id/photo').put(protect, authorize('publisher', 'admin'), bootcam
 
 router
   .route('/')
-  .get(advancedResults(Bootcamp, 'courses'), getBootcamps)
+  .get(advancedResults(Bootcamp, 'courses, user'), getBootcamps)
   .post(protect, authorize('publisher', 'admin'), createBootcamp);
 
 router 
