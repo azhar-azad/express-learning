@@ -44,13 +44,14 @@ exports.getBootcamp = asyncHandler( async (req, res, next) => {
 */
 exports.createBootcamp = asyncHandler( async (req, res, next) => {
   // Add user to req.body
-  req.body.user = req.user.id; // this is the logged in user id
+  req.body.user = req.user.id; // this is the logged in user id. req.user is added in protect method
 
   // Check for published bootcamp
   // Finding all bootcamps by a user
   const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id });
 
   // If the user is not an admin, they can only add one bootcamp
+  // Restricting each user to have only one bootcamp
   if (publishedBootcamp && req.user.role !== 'admin') {
     return next(
       new ErrorResponse(`The user with ID ${req.user.id} has already published a bootcamp`, 400)
@@ -85,7 +86,7 @@ exports.updateBootcamp = asyncHandler( async (req, res, next) => {
     // req.user is not the owner and also not an admin.
     // admin can modify a bootcamp regardless of being the owner or not.
     return next(
-      new ErrorResponse(`User ${req.params.id} is not authorized to update this bootcamp`, 401)
+      new ErrorResponse(`User ${req.user.id} is not authorized to update this bootcamp`, 401)
     );
   }
 

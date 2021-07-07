@@ -24,12 +24,12 @@ router.route('/')
       select: 'name description'
     }), 
     getCourses
-  )
-  .post(protect, authorize('publisher', 'admin'), createCourse);
+  ) // anyone can access
+  .post(protect, authorize('publisher', 'admin'), createCourse); // logged-in user with authorized role can access
 
 router.route('/:id')
-  .get(getCourse)
-  .put(protect, authorize('publisher', 'admin'), updateCourse)
-  .delete(protect, authorize('publisher', 'admin'), deleteCourse);
+  .get(getCourse) // anyone can access
+  .put(protect, authorize('publisher', 'admin'), updateCourse) // logged-in user with authorized role can access
+  .delete(protect, authorize('publisher', 'admin'), deleteCourse); // logged-in user with authorized role can access
 
 module.exports = router;

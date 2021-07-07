@@ -24,32 +24,19 @@ const { protect, authorize } = require('../middlewares/auth.middleware');
 // Re-route into other resource routers
 router.use('/:bootcampId/courses', courseRouter);
 
-router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
+router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius); // anyone can access
 
-router.route('/:id/photo').put(protect, authorize('publisher', 'admin'), bootcampPhotoUpload); 
+router.route('/:id/photo').put(protect, authorize('publisher', 'admin'), bootcampPhotoUpload); // logged-in user with authorized role can access
 
 router
   .route('/')
-  .get(advancedResults(Bootcamp, 'courses, user'), getBootcamps)
-  .post(protect, authorize('publisher', 'admin'), createBootcamp);
+  .get(advancedResults(Bootcamp, 'courses, user'), getBootcamps) // anyone can access
+  .post(protect, authorize('publisher', 'admin'), createBootcamp); // logged-in user with authorized role can access
 
 router 
   .route('/:id')
-  .get(getBootcamp)
-  .put(protect, authorize('publisher', 'admin'), updateBootcamp)
-  .delete(protect, authorize('publisher', 'admin'), deleteBootcamp);
+  .get(getBootcamp) // anyone can access
+  .put(protect, authorize('publisher', 'admin'), updateBootcamp) // logged-in user with authorized role can access
+  .delete(protect, authorize('publisher', 'admin'), deleteBootcamp); // logged-in user with authorized role can access
 
 module.exports = router;
-
-// router.get('/', getBootcamps);
-
-// router.get('/:id', getBootcamp);
-
-// router.post('/', createBootcamp);
-
-// router.put('/:id', updateBootcamp);
-
-// router.delete('/:id', deleteBootcamp);
-
-
-
