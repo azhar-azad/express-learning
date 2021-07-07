@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/async.middleware');
+const sendEmail = require('../utils/sendEmail');
 
 /** 
  * @description   Register user
@@ -53,6 +54,80 @@ exports.login = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
+/** 
+ * @description   Get current logged in user
+ * @method        GET 
+ * @route         /api/v1/auth/me
+ * @access        Private
+*/
+exports.getMe = asyncHandler(async (req, res, next) => {
+  // As this route will be protected, we will have access to req.user object
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    data: user
+  });
+});
+
+/**
+ * @description   Forgot password
+ * @method        POST
+ * @route         /api/v1/auth/forgotpassword
+ * @access        Public
+ */
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  // As this route will be protected, we will have access to req.user object
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(
+      new ErrorResponse(`There is no user with that email`, 404)
+    );
+  }
+
+  // Get reset token
+  const resetToken = user.getResetPasswordToken();
+
+  await user.save({ validateBeforeSave: false }); // we do not want to run any validators like check the name or any other kinds of staffs.
+
+  // Create reset url
+  const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/resetpassword/${resetToken}`;
+
+  // This will be the email body
+  const message = `You are receiving this email because you (or someone else) has requested the reset of a password. 
+    Please make a PUT request to: \n\n ${resetUrl}`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Password reset token',
+      message
+    });
+
+    res
+      .status(200)
+      .json({ success: true, data: 'Email sent' });
+  } catch (err) {
+    console.log(err);
+
+    // Get rid of the following fields from the database
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    // Save the user without validation
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new ErrorResponse('Email could not be sent', 500)
+    );
+  }
+
+  // res.status(200).json({
+  //   success: true,
+  //   data: user
+  // });
+});
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
@@ -69,6 +144,7 @@ const sendTokenResponse = (user, statusCode, res) => {
     options.secure = true;
   }
 
+  // Sending token as json response as well as with cookie.
   res
     .status(statusCode)
     .cookie('token', token, options) // cookie: name, value, options
@@ -77,19 +153,3 @@ const sendTokenResponse = (user, statusCode, res) => {
       token
     })
 };
-
-/** 
- * @description   Get current logged in user
- * @method        GET 
- * @route         /api/v1/auth/me
- * @access        Private
-*/
-exports.getMe = asyncHandler(async (req, res, next) => {
-  // As this route will be protected, we will have access to req.user object
-  const user = await User.findById(req.user.id);
-
-  res.status(200).json({
-    success: true,
-    data: user
-  });
-});
