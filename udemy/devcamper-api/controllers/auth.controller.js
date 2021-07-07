@@ -2,6 +2,7 @@ const User = require('../models/User');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/async.middleware');
 const sendEmail = require('../utils/sendEmail');
+const crypto = require('crypto');
 
 /** 
  * @description   Register user
@@ -92,7 +93,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false }); // we do not want to run any validators like check the name or any other kinds of staffs.
 
   // Create reset url
-  const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/resetpassword/${resetToken}`;
+  const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/resetpassword/${resetToken}`;
 
   // This will be the email body
   const message = `You are receiving this email because you (or someone else) has requested the reset of a password. 
@@ -123,11 +124,47 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // res.status(200).json({
-  //   success: true,
-  //   data: user
-  // });
+  res.status(200).json({
+    success: true,
+    data: user
+  });
 });
+
+/**
+ * @description   Reset password
+ * @method        PUT
+ * @route         /api/v1/auth/resetpassword/:resettoken
+ * @access        Public
+ */
+exports.resetPassword = asyncHandler(async (req, res, next) => {
+  // Get hashed token
+  const resetPasswordToken = crypto.createHash('sha256').update(req.params.resettoken).digest('hex');
+
+  // Get user by resettoken that is not expired
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() }
+  });
+
+  if (!user) {
+    return next(
+      new ErrorResponse(`Invalid token`, 400)
+    );
+  }
+
+  // Set new password
+  user.password = req.body.password;
+
+  // Once the password is reset, we don't need those two.
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  // Update the user with new fields
+  await user.save();
+
+  sendTokenResponse(user, 200, res);
+});
+
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
