@@ -18,6 +18,7 @@ connectDB();
 const bootcampsRouter = require('./routes/bootcamps.route');
 const coursesRouter = require('./routes/courses.route');
 const authRouter = require('./routes/auth.route');
+const usersRouter = require('./routes/users.route');
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(`/api/v1/bootcamps`, bootcampsRouter);
 app.use(`/api/v1/courses`, coursesRouter);
 app.use(`/api/v1/auth`, authRouter);
+app.use(`/api/v1/users`, usersRouter);
 
 app.use(errorHandler); // as this handles error in controller methods, it needs to be added after the router call
 
