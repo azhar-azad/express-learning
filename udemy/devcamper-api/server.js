@@ -7,7 +7,10 @@ const fileupload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
-const xss = require('xss-clean')
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const cors = require('cors');
 const errorHandler = require('./middlewares/error.middleware');
 const connectDB = require('./config/db');
 
@@ -48,6 +51,19 @@ app.use(helmet());
 
 // Prevent XSS attacks
 app.use(xss());
+
+// Rate Limiting
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100 // 100 requests pre windowMs
+});
+app.use(limiter);
+
+// Prevent http param polution
+app.use(hpp());
+
+// Enable CORS
+app.use(cors());
 
 // Set static folder
 // This is needed to access the contents of the folder in the browser
