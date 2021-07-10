@@ -1,7 +1,9 @@
 const {
   getReviews,
   getReview,
-  createReview
+  createReview,
+  updateReview,
+  deleteReview
 } = require('../controllers/reviews.controller');
 
 // For middleware
@@ -27,7 +29,7 @@ router.route('/')
 
 router.route('/:id')
   .get(getReview) // anyone can access
-//   .put(protect, authorize('publisher', 'admin'), updateCourse) // logged-in user with authorized role can access
-//   .delete(protect, authorize('publisher', 'admin'), deleteCourse); // logged-in user with authorized role can access
+  .put(protect, authorize('user', 'admin'), updateReview) // logged-in user with authorized role can access
+  .delete(protect, authorize('user', 'admin'), deleteReview); // logged-in user with authorized role can access
 
 module.exports = router;
