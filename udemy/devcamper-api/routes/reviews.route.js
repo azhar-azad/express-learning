@@ -1,6 +1,7 @@
 const {
   getReviews,
-  getReview
+  getReview,
+  createReview
 } = require('../controllers/reviews.controller');
 
 // For middleware
@@ -22,7 +23,7 @@ router.route('/')
     }),
     getReviews
   ) // anyone can access
-  // .post(protect, authorize('publisher', 'admin'), createCourse); // logged-in user with authorized role can access
+  .post(protect, authorize('user', 'admin'), createReview); // logged-in user with authorized role can access
 
 router.route('/:id')
   .get(getReview) // anyone can access
