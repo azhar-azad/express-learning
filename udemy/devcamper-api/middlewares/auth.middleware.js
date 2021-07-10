@@ -8,12 +8,12 @@ exports.protect = asyncHandler(async (req, res, next) => {
   let token;
 
   let authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith('Bearer')) {
+  if (authHeader && authHeader.startsWith('Bearer')) { // Set token from Bearer token in header
     token = authHeader.split(' ')[1]; // after spliting: [Bearer, token]. only take the second item.
   }
 
   // Not using cookies now. That's why it's commented out
-  // else if (req.cookies.token) {
+  // else if (req.cookies.token) { // Set token from cookie
   //   token = req.cookies.token;
   // }
 
@@ -23,6 +23,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   }
 
   try {
+    // Verify token
     // Verify token
     // verify method will decode the jwt token like this { payload, iat(issued at), exp(when will expire) }
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
