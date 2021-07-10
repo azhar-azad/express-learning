@@ -125,7 +125,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
  * @access        Public
  */
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
-  // As this route will be protected, we will have access to req.user object
+  
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
@@ -170,11 +170,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
       new ErrorResponse('Email could not be sent', 500)
     );
   }
-
-  res.status(200).json({
-    success: true,
-    data: user
-  });
 });
 
 /**
