@@ -14,8 +14,8 @@ connectDB();
 
 // Route files
 const authRouter = require('./routes/auth.route');
-const todosRouter = require('./routes/todos.route');
 const usersRouter = require('./routes/users.route');
+const sectionsRouter = require('./routes/sections.route');
 
 const app = express();
 
@@ -31,8 +31,8 @@ if (process.env.APP_ENV === 'development') {
 
 // Mount routers
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/todos', todosRouter);
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/sections', sectionsRouter);
 
 // Handle errors
 app.use(errorHandler);
