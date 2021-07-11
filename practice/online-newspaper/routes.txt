@@ -1,0 +1,49 @@
+Section routes:
+POST    /sections      create      subeditor can create ------------- protect, authorize(subeditor, admin)
+GET     /sections      get all     anyone can get all
+GET     /sections/:id  get one     anyone can get one
+PUT     /sections/:id  update      subeditor and owner can update --- protect, authorize(subeditor, admin)
+DELETE  /sections/:id  delete      subeditor and owner can delete --- protect, authorize(subeditor, admin)
+
+Tag routes:
+POST    /tags      create      subeditor can create --- protect, authorize(subeditor, admin)
+GET     /tags      get all     anyone can get all
+GET     /tags/:id  get one     anyone can get one
+PUT     /tags/:id  update      subeditor and owner can update --- protect, authorize(subeditor, admin)
+DELETE  /tags/:id  delete      subeditor and owner can delete --- protect, authorize(subeditor, admin)
+
+Article routes:
+POST    /sections/:sectionId/articles       create                  reporter can create ------------- protect, authorize(reporter, admin)
+GET     /sections/:sectionId/articles       get all for section     anyone can get all
+GET     /tags/:tagId/articles               get all for tag         anyone can get all
+GET     /articles                           get all                 anyone can get all
+GET     /articles/:id                       get one                 anyone can get one
+PUT     /articles/:id                       update                  reporter and owner can update --- protect, authorize(reporter, admin)
+DELETE  /articles/:id                       delete                  reporter and owner can delete --- protect, authorize(reporter, admin)
+
+Comment routes:
+POST    /articles/:articleId/comments       create                  user can create ------------- protect, authorize(user, admin)
+GET     /articles/:articlesId/comments      get all for article     anyone can get all
+GET     /comments                           get all                 anyone can get all
+GET     /comments/:id                       get one                 anyone can get one
+PUT     /comments/:id                       update                  user and owner can update --- protect, authorize(user, admin)
+DELETE  /comments/:id                       delete                  user and owner can delete --- protect, authorize(user, admin)
+
+
+
+
+User routes:
+POST    /users      create      admin can create --- protect, authorize(admin)
+GET     /users      get all     admin can get all -- protect, authorize(admin)
+GET     /users/:id  get one     admin can get one -- protect, authorize(admin)
+PUT     /users/:id  update      admin can update --- protect, authorize(admin)
+DELETE  /users/:id  delete      admin can delete --- protect, authorize(admin)
+
+Auth routes;
+POST    /register                   anyone can register [Can't register a user with admin role. Admin role can only be created in the database]
+POST    /login                      anyone can login with correct credentials
+GET     /me                         logged in user can get ------------------------ protect
+PUT     /updatedetails              logged in user can update details ------------- protect
+PUT     /changepassword             logged in user can change password ------------ protect
+POST    /forgotpassword             anyone can access
+PUT     /resetpassword/:resettoken  anyone can access
