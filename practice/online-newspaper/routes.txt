@@ -6,11 +6,11 @@ PUT     /sections/:id  update      subeditor and owner can update --- protect, a
 DELETE  /sections/:id  delete      subeditor and owner can delete --- protect, authorize(subeditor, admin)
 
 Tag routes:
-POST    /tags      create      subeditor can create --- protect, authorize(subeditor, admin)
+POST    /tags      create      reporter can create --- protect, authorize(reporter, admin)
 GET     /tags      get all     anyone can get all
 GET     /tags/:id  get one     anyone can get one
-PUT     /tags/:id  update      subeditor and owner can update --- protect, authorize(subeditor, admin)
-DELETE  /tags/:id  delete      subeditor and owner can delete --- protect, authorize(subeditor, admin)
+PUT     /tags/:id  update      reporter and owner can update --- protect, authorize(reporter, admin)
+DELETE  /tags/:id  delete      reporter and owner can delete --- protect, authorize(reporter, admin)
 
 Article routes:
 POST    /sections/:sectionId/articles       create                  reporter can create ------------- protect, authorize(reporter, admin)
