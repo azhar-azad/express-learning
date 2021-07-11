@@ -17,6 +17,7 @@ const authRouter = require('./routes/auth.route');
 const usersRouter = require('./routes/users.route');
 const sectionsRouter = require('./routes/sections.route');
 const tagsRouter = require('./routes/tags.route');
+const articlesRouter = require('./routes/articles.route');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/sections', sectionsRouter);
 app.use('/api/v1/tags', tagsRouter);
+app.use('/api/v1/articles', articlesRouter);
 
 // Handle errors
 app.use(errorHandler);
