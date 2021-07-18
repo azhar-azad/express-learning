@@ -9,24 +9,12 @@ const Tag = require('../models/Tag');
  *  @method GET
  *  @route  /api/v1/articles
  *  @route  /api/v1/sections/:sectionId/articles
- *  @route  /api/v1/tags/:tagId/articles
  *  @access Public
  * */
 exports.getArticles = asyncHandler(async (req, res, next) => {
   // /api/v1/sections/:sectionId/articles
   if (req.params.sectionId) {
     const articles = await Article.find({ section: req.params.sectionId });
-
-    return res.status(200).json({
-      success: true,
-      count: articles.length,
-      data: articles
-    });
-  }
-
-  // /api/v1/tags/:tagId/articles
-  if (req.params.tagId) {
-    const articles = await Article.find({ tag: req.params.tagId });
 
     return res.status(200).json({
       success: true,
@@ -80,27 +68,11 @@ exports.createArticle = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`No section found with the id ${req.params.sectionId}`, 404));
   }
 
-  let tagIds = req.body.tags;
-  let isTagsValid = false;
-  let promise = tagIds.forEach(async tagId => {
-    const tag = await Tag.findById(tagId);
+  const article = await Article.create(req.body);
 
-    if (tag) {
-      isTagsValid = true;
-    } else {
-      return next(new ErrorResponse(`No tag found with the id ${tagId}`, 404));
-    }
-  });
-
-  promise.resolve();
-
-  if (isTagsValid) {
-    const article = await Article.create(req.body);
-
-    res
-      .status(201)
-      .json({ success: true, data: article });
-  }
+  res
+    .status(201)
+    .json({ success: true, data: article });
 });
 
 

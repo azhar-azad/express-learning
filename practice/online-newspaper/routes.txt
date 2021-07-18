@@ -15,7 +15,7 @@ DELETE  /tags/:id  delete      reporter and owner can delete --- protect, author
 Article routes:
 POST    /sections/:sectionId/articles       create                  reporter can create ------------- protect, authorize(reporter, admin)
 GET     /sections/:sectionId/articles       get all for section     anyone can get all
-GET     /tags/:tagId/articles               get all for tag         anyone can get all
+**GET     /tags/:tagId/articles               get all for tag         anyone can get all ** Not provided for now
 GET     /articles                           get all                 anyone can get all
 GET     /articles/:id                       get one                 anyone can get one
 PUT     /articles/:id                       update                  reporter and owner can update --- protect, authorize(reporter, admin)

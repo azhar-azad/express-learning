@@ -30,11 +30,6 @@ const ArticleSchema = new mongoose.Schema({
     ref: 'Section',
     required: true
   },
-  tags: {
-    type: [mongoose.Schema.ObjectId],
-    ref: 'Tag',
-    max: 5
-  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
