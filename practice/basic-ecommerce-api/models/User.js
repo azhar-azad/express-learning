@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
   resetPasswordExpire: Date,
   phone: {
     type: String,
-    required: [true, 'Please ad a phone number']
+    required: [true, 'Please add a phone number']
   },
   apartment: {
     type: String,

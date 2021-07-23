@@ -11,7 +11,7 @@ const crypto = require('crypto');
  *  @access Public
  * */
 exports.register = asyncHandler(async (req, res, next) => {
-  const { fullName, username, email, password, role } = req.body;
+  const { fullName, username, email, password, role, phone } = req.body;
 
   // Create user
   const user = await User.create({
@@ -19,7 +19,8 @@ exports.register = asyncHandler(async (req, res, next) => {
     username,
     email,
     password,
-    role
+    role,
+    phone
   });
 
   sendTokenResponse(user, 200, res);
@@ -36,7 +37,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   // Validate email & password
   if (!email || !password) {
-    return next(new ErrorResponse('Please provide an email or username and password', 400));
+    return next(new ErrorResponse('Please provide an email and password', 400));
   }
 
   // Check for user by email
@@ -78,18 +79,38 @@ exports.getMe = asyncHandler(async (req, res, next) => {
  *  @access Private [Logged in user can access]
  * */
 exports.updateDetails = asyncHandler(async (req, res, next) => {
-  // Only update fullName and email.
-  // Won't update password or role.
-  let fieldsToUpdate = {};
+  // Only update fullName, email and phone number.
 
-  if (req.body.fullName) {
-    fieldsToUpdate.fullName = req.body.fullName;
-  }
-  if (req.body.email) {
-    fieldsToUpdate.email = req.body.email;
+  // Copy req.body
+  let reqBody = { ...req.body };
+
+  // Fields to exclude (does not update those fields)
+  const bodyItemsToRemove = [
+    'password',
+    'role',
+    'resetPasswordToken',
+    'resetPasswordExpire'
+  ];
+
+  // Loop over bodyItemsToRemove and delete them from request body
+  let forbiddenItems = [];
+  bodyItemsToRemove.forEach(item => {
+    if (item in reqBody) {
+      // Add the forbidden fileds to forbiddenItems array, if sent via req.body
+      forbiddenItems.push(item);
+    }
+    // Also, delete from reqBody
+    delete reqBody[item];
+  });
+
+  if (forbiddenItems && Object.keys(forbiddenItems).length !== 0) {
+    let errorMsg = 'Can not update';
+    forbiddenItems.forEach(item => errorMsg += (' ' + item + ','));
+    errorMsg = errorMsg.substring(0, errorMsg.length - 1);
+    return next(new ErrorResponse(errorMsg, 400));
   }
 
-  const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
+  const user = await User.findByIdAndUpdate(req.user.id, reqBody, {
     new: true,
     runValidators: true
   });
