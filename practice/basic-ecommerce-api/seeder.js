@@ -13,7 +13,6 @@ const mongoose = require('mongoose');
 dotenv.config({ path: './config/config.env' });
 
 // Load models
-const Todo = require('./models/Todo');
 const User = require('./models/User');
 
 // Connect to database
@@ -25,9 +24,6 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Read JSON files
-const todos = JSON.parse(
-  fs.readFileSync(`${__dirname}/_data/todos.json`, 'utf-8')
-);
 const users = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
 );
@@ -35,7 +31,6 @@ const users = JSON.parse(
 // Import into DB
 const importData = async () => {
   try {
-    await Todo.create(todos);
     await User.create(users);
 
     console.log('Data Imported ...'.green.inverse);
@@ -48,7 +43,6 @@ const importData = async () => {
 // Delete data
 const deleteData = async () => {
   try {
-    await Todo.deleteMany();
     await User.deleteMany();
 
     console.log('Data Destroyed ...'.red.inverse);

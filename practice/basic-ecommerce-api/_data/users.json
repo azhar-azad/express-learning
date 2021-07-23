@@ -4,27 +4,51 @@
     "role": "user",
     "fullName": "John Doe",
     "email": "john@gmail.com",
-    "password": "123456"
+    "password": "123456",
+    "phone": "123-1234567",
+    "apartment": "",
+    "street": "",
+    "city": "",
+    "zip": "",
+    "country": ""
   },
   {
     "_id": "60e7091be23dededb363f0f2",
-    "role": "user",
+    "role": "seller",
     "fullName": "Jane Doe",
     "email": "jane@gmail.com",
-    "password": "123456"
+    "password": "123456",
+    "phone": "123-1234567",
+    "apartment": "4/a, 34th Floor, AB Tower",
+    "street": "Fifth Avenue",
+    "city": "New York",
+    "zip": "10003",
+    "country": "United States of America"
   },
   {
     "_id": "60e70b17e23dededb363f0f5",
-    "role": "user",
+    "role": "seller",
     "fullName": "Nabile Shahrin",
     "email": "nabila@gmail.com",
-    "password": "123456"
+    "password": "123456",
+    "phone": "123-1234567",
+    "apartment": "501, 4th Floor, Shamsunnahar Hall",
+    "street": "Forest Road",
+    "city": "Chittagong",
+    "zip": "4331",
+    "country": "Bangladesh"
   },
   {
     "_id": "60e72a08bdfeae9bd9e3d326",
     "role": "user",
     "fullName": "Azhar Uddin",
     "email": "azhar@gmail.com",
-    "password": "123456"
+    "password": "123456",
+    "phone": "123-1234567",
+    "apartment": "3/A, 2nd Floor, GK Bhaban",
+    "street": "Nobodhara School Road",
+    "city": "Dhaka",
+    "zip": "1212",
+    "country": "Bangladesh"
   }
 ]

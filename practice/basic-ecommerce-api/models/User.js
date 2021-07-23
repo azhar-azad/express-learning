@@ -27,11 +27,35 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user'],
+    enum: ['user', 'seller'],
     default: 'user'
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
+  phone: {
+    type: String,
+    required: [true, 'Please ad a phone number']
+  },
+  apartment: {
+    type: String,
+    default: ''
+  },
+  street: {
+    type: String,
+    default: ''
+  },
+  city: {
+    type: String,
+    default: ''
+  },
+  zip: {
+    type: String,
+    default: ''
+  },
+  country: {
+    type: String,
+    default: ''
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -59,11 +83,11 @@ UserSchema.pre('save', async function (next) {
 });
 
 // Cascade delete todos when an user is deleted
-UserSchema.pre('remove', async function (next) {
-  console.log(`Todos being removed for user ${this._id}`);
-  await this.model('Todo').deleteMany({ user: this._id });
-  next();
-});
+// UserSchema.pre('remove', async function (next) {
+//   console.log(`Todos being removed for user ${this._id}`);
+//   await this.model('Todo').deleteMany({ user: this._id });
+//   next();
+// });
 
 // Sign JWT and return
 // Needed while registering a new user
