@@ -59,12 +59,19 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));
   }
 
-  if (req.body.fullName)
-    user.fullName = req.body.fullName;
-  if (req.body.email)
-    user.email = req.body.email;
-  if(req.body.password)
-    user.password = req.body.password;
+  // Copy req.body
+  let reqBody = { ...req.body };
+
+  // Fields to exclude (does not update those fields)
+  const bodyItemsToRemove = [
+    'resetPasswordToken',
+    'resetPasswordExpire'
+  ];
+
+  // Loop over bodyItemsToRemove and delete them from request body
+  bodyItemsToRemove.forEach(item => delete reqBody[item]);
+
+  Object.keys(reqBody).forEach(item => user[item] = reqBody[item]);
 
   await user.save();
 
