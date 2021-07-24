@@ -4,7 +4,8 @@ const slugify = require('slugify');
 const CategorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please add category name']
+    required: [true, 'Please add category name'],
+    unique: [true, 'Category already exists']
   },
   slug: String,
   icon: String,
@@ -24,10 +25,10 @@ CategorySchema.pre('save', function(next) {
 });
 
 // Cascade delete products when a category is deleted
-CategorySchema.pre('remove', async function (next) {
-  console.log(`Products being removed for category ${this._id}`);
-  await this.model('Product').deleteMany({ category: this._id });
-  next();
-});
+// CategorySchema.pre('remove', async function (next) {
+//   console.log(`Products being removed for category ${this._id}`);
+//   await this.model('Product').deleteMany({ category: this._id });
+//   next();
+// });
 
 module.exports = mongoose.model('Category', CategorySchema);

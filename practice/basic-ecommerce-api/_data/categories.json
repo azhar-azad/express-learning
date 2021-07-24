@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Smartphone",
+    "icon": "phone.icon",
+    "color": "#FFFFFF"
+  },
+  {
+    "name": "Electronics",
+    "icon": "elec.ico",
+    "color": "#12FE6B"
+  },
+  {
+    "name": "Men's Wearable",
+    "icon": "men.icon"
+  },
+  {
+    "name": "Women's Wearable",
+    "icon": "women.ico"
+  }
+]
