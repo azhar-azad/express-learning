@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Good",
+    "text": "Comfortable punjabi",
+    "rating": 8,
+    "product": "60fbfee496a3f1a2f1715f8c",
+    "user": "60e707f5e23dededb363f0ee"
+  },
+  {
+    "title": "Excellent",
+    "text": "I love it",
+    "rating": 10,
+    "product": "60fbfee496a3f1a2f1715f8c",
+    "user": "60fc09605a8e0ead0386ccdb"
+  },
+  {
+    "title": "Bad",
+    "text": "Waste of my money",
+    "rating": 2,
+    "product": "60fbfee496a3f1a2f1715f8d",
+    "user": "60e707f5e23dededb363f0ee"
+  },
+  {
+    "title": "Not Good",
+    "text": "Bad jeans",
+    "rating": 3,
+    "product": "60fbfee496a3f1a2f1715f8d",
+    "user": "60fc09605a8e0ead0386ccdb"
+  },
+  {
+    "title": "Beautiful",
+    "text": "Beautiful saree",
+    "rating": 7,
+    "product": "60fbfee496a3f1a2f1715f8b",
+    "user": "60e707f5e23dededb363f0ee"
+  },
+  {
+    "title": "Wonderful",
+    "text": "I'm gonna ware it to everywhere",
+    "rating": 8,
+    "product": "60fbfee496a3f1a2f1715f8b",
+    "user": "60fc09605a8e0ead0386ccdb"
+  },
+  {
+    "title": "Average",
+    "text": "Not good value for money",
+    "rating": 5,
+    "product": "60fbfee496a3f1a2f1715f8a",
+    "user": "60e707f5e23dededb363f0ee"
+  },
+  {
+    "title": "Expensive",
+    "text": "Less expensive alternatives are out there",
+    "rating": 4,
+    "product": "60fbfee496a3f1a2f1715f8a",
+    "user": "60fc09605a8e0ead0386ccdb"
+  },
+  {
+    "title": "Better",
+    "text": "Good value for money",
+    "rating": 7,
+    "product": "60fbfee496a3f1a2f1715f89",
+    "user": "60e707f5e23dededb363f0ee"
+  },
+  {
+    "title": "Stylish",
+    "text": "Slim & stylish phone",
+    "rating": 6,
+    "product": "60fbfee496a3f1a2f1715f89",
+    "user": "60fc09605a8e0ead0386ccdb"
+  }
+]

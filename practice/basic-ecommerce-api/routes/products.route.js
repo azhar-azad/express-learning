@@ -10,14 +10,18 @@ const { protect, authorize } = require('../middlewares/auth.mw');
 const Product = require('../models/Product');
 const advancedResults = require('../middlewares/advancedResults');
 
+const reviewsRouter = require('./reviews.route');
+
 const router = require('express').Router({ mergeParams: true });
+
+router.use('/:productId/reviews', reviewsRouter);
 
 router.route('/')
   .get(advancedResults(
     Product, [
       { path: 'category', select: 'name' },
       { path: 'user', select: 'fullName' }
-    ],
+    ]
   ), getProducts)
   .post(protect, authorize('seller', 'admin'), createProduct);
 

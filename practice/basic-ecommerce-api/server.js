@@ -17,6 +17,7 @@ const authRouter = require('./routes/auth.route');
 const usersRouter = require('./routes/users.route');
 const categoriesRouter = require('./routes/categories.route');
 const productsRouter = require('./routes/products.route');
+const reviewsRouter = require('./routes/reviews.route');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v1/products', productsRouter);
+app.use('/api/v1/reviews', reviewsRouter);
 
 // Handle errors
 app.use(errorHandler);

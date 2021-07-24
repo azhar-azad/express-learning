@@ -50,5 +50,18 @@
     "city": "Dhaka",
     "zip": "1212",
     "country": "Bangladesh"
+  },
+  {
+    "_id": "60fc09605a8e0ead0386ccdb",
+    "role": "user",
+    "fullName": "Mark Doe",
+    "email": "mark@gmail.com",
+    "password": "123456",
+    "phone": "123-1234567",
+    "apartment": "",
+    "street": "",
+    "city": "",
+    "zip": "",
+    "country": ""
   }
 ]

@@ -1,19 +1,23 @@
 [
   {
+    "_id": "60fbfee496a3f1a2f1715f81",
     "name": "Smartphone",
     "icon": "phone.icon",
     "color": "#FFFFFF"
   },
   {
+    "_id": "60fbfee496a3f1a2f1715f82",
     "name": "Electronics",
     "icon": "elec.ico",
     "color": "#12FE6B"
   },
   {
+    "_id": "60fbfee496a3f1a2f1715f83",
     "name": "Men's Wearable",
     "icon": "men.icon"
   },
   {
+    "_id": "60fbfee496a3f1a2f1715f84",
     "name": "Women's Wearable",
     "icon": "women.ico"
   }

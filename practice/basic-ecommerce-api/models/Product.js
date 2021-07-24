@@ -38,7 +38,9 @@ const ProductSchema = new mongoose.Schema({
   },
   avgRating: {
     type: Number,
-    default: 0
+    default: 0,
+    min: [0, 'Rating must be at least 0'],
+    max: [10, 'Rating can not be more than 10']
   },
   numReviews: {
     type: Number,
