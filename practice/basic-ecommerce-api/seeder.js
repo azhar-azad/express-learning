@@ -15,6 +15,7 @@ dotenv.config({ path: './config/config.env' });
 // Load models
 const User = require('./models/User');
 const Category = require('./models/Category');
+const Product = require('./models/Product');
 
 // Connect to database
 mongoose.connect(process.env.MONGO_URI, {
@@ -31,12 +32,16 @@ const users = JSON.parse(
 const categories = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/categories.json`, 'utf-8')
 );
+const products = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/products.json`, 'utf-8')
+);
 
 // Import into DB
 const importData = async () => {
   try {
-    await User.create(users);
-    await Category.create(categories);
+    // await User.create(users);
+    // await Category.create(categories);
+    await Product.create(products);
 
     console.log('Data Imported ...'.green.inverse);
     process.exit();
@@ -48,8 +53,9 @@ const importData = async () => {
 // Delete data
 const deleteData = async () => {
   try {
-    await User.deleteMany();
-    await Category.deleteMany();
+    // await User.deleteMany();
+    // await Category.deleteMany();
+    await Product.deleteMany();
 
     console.log('Data Destroyed ...'.red.inverse);
     process.exit();

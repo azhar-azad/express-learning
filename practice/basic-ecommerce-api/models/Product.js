@@ -36,7 +36,7 @@ const ProductSchema = new mongoose.Schema({
     min: 0,
     max: 255
   },
-  rating: {
+  avgRating: {
     type: Number,
     default: 0
   },
@@ -56,6 +56,11 @@ const ProductSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Category',
     required: true
+  },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true
   }
 }, {
   toJSON: { virtuals: true },
@@ -67,10 +72,10 @@ ProductSchema.pre('save', function(next) {
   next();
 });
 
-// Cascade delete products when a category is deleted
+// Cascade delete reviews when a product is deleted
 ProductSchema.pre('remove', async function (next) {
-  console.log(`Products being removed for category ${this._id}`);
-  await this.model('Product').deleteMany({ category: this._id });
+  console.log(`Reviews being removed for product ${this._id}`);
+  await this.model('Review').deleteMany({ product: this._id });
   next();
 });
 

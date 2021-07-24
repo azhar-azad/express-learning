@@ -16,6 +16,7 @@ connectDB();
 const authRouter = require('./routes/auth.route');
 const usersRouter = require('./routes/users.route');
 const categoriesRouter = require('./routes/categories.route');
+const productsRouter = require('./routes/products.route');
 
 const app = express();
 
@@ -33,6 +34,7 @@ if (process.env.APP_ENV === 'development') {
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/categories', categoriesRouter);
+app.use('/api/v1/products', productsRouter);
 
 // Handle errors
 app.use(errorHandler);

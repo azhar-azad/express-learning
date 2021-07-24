@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Samsung A20",
+    "description": "Samsung Smartphone Series-A",
+    "brand": "Samsung",
+    "price": "16000",
+    "countInStock": "20",
+    "category": "60fbb619f7067a3325be1faa",
+    "user": "60e7091be23dededb363f0f2"
+  },
+  {
+    "name": "Walton Washing Machine MK-40",
+    "description": "Walton Washing Machine Series MK",
+    "brand": "Walton",
+    "price": "40000",
+    "countInStock": "40",
+    "category": "60fbb619f7067a3325be1fab",
+    "user": "60e7091be23dededb363f0f2"
+  },
+  {
+    "name": "Aarong Blue Saree",
+    "description": "Aarong Saree Color Line Blue",
+    "brand": "Aarong",
+    "price": "4000",
+    "countInStock": "10",
+    "category": "60fbb619f7067a3325be1fad",
+    "user": "60e70b17e23dededb363f0f5"
+  },
+  {
+    "name": "Artisan Punjabi",
+    "description": "Artisan Color Punjabi Black",
+    "brand": "Artisan",
+    "price": "2000",
+    "countInStock": "60",
+    "category": "60fbb619f7067a3325be1fac",
+    "user": "60e70b17e23dededb363f0f5"
+  },
+  {
+    "name": "K-Craft Jeans for Men",
+    "description": "K-Craft Men's Jeans Faded",
+    "brand": "K-Craft",
+    "price": "5000",
+    "countInStock": "20",
+    "category": "60fbb619f7067a3325be1fac",
+    "user": "60e70b17e23dededb363f0f5"
+  }
+]
