@@ -3,7 +3,8 @@ const {
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getProductsFeatured
 } = require('../controllers/products.controller');
 const { protect, authorize } = require('../middlewares/auth.mw');
 
@@ -15,6 +16,8 @@ const reviewsRouter = require('./reviews.route');
 const router = require('express').Router({ mergeParams: true });
 
 router.use('/:productId/reviews', reviewsRouter);
+
+router.route('/featured').get(getProductsFeatured);
 
 router.route('/')
   .get(advancedResults(

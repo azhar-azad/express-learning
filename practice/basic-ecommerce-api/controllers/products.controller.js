@@ -137,3 +137,17 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
     .status(200)
     .json({ success: true, data: {} });
 });
+
+/**
+ *  @desc   Get Featured Products
+ *  @method GET
+ *  @route  /api/v1/products/featured
+ *  @access Public
+ * */
+exports.getProductsFeatured = asyncHandler(async (req, res, next) => {
+  const featuredProducts = await Product.find({ isFeatured: true });
+
+  res
+    .status(200)
+    .json({ success: true, count: featuredProducts.length, data: featuredProducts });
+});
